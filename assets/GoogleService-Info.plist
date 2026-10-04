@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCVt1j_h8Pewboc9mbPh7j2uuQbH-6HOAs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>729428175535</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ticketx.triumphhotel.com</string>
+	<key>PROJECT_ID</key>
+	<string>triumphapp-7c7ce</string>
+	<key>STORAGE_BUCKET</key>
+	<string>triumphapp-7c7ce.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:729428175535:ios:dc868a06ab3f09302b825a</string>
+</dict>
+</plist>

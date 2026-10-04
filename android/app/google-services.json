@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "729428175535",
+    "project_id": "triumphapp-7c7ce",
+    "storage_bucket": "triumphapp-7c7ce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729428175535:android:5e3b80f32a909f9e2b825a",
+        "android_client_info": {
+          "package_name": "com.example.triumph_hotels"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwGResEZHaD2EWTcVaPU2OqPqFcjUJS2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,73 @@
+workflows:
+  ios-workflow:
+    name: iOS Build & Export IPA
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      # Optional: Uncomment if you configure an environment group in Codemagic for App Store Connect API keys
+      # groups:
+      #   - apple_credentials
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Flutter doctor
+        script: flutter doctor -v
+
+      - name: Get Flutter dependencies
+        script: flutter pub get
+
+      - name: Install CocoaPods
+        script: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Set up code signing (if certificates are added in Codemagic)
+        script: |
+          if command -v xcode-project &> /dev/null; then
+            xcode-project use-profiles || echo "No Codemagic signing profiles configured, falling back to project signing"
+          fi
+
+      - name: Build iOS IPA
+        script: |
+          # If code signing credentials are set up in Codemagic:
+          if [ -n "$CM_CERTIFICATE" ] || [ -n "$APP_STORE_CONNECT_KEY_IDENTIFIER" ]; then
+            flutter build ipa --release
+          else
+            # Builds without code-signing and bundles an IPA for development / ad-hoc signing
+            flutter build ipa --release --no-codesign
+            
+            # Package unsigned xcarchive into an installable IPA
+            ARCHIVE_DIR="build/ios/archive/Runner.xcarchive"
+            if [ -d "$ARCHIVE_DIR/Products/Applications/Runner.app" ]; then
+              mkdir -p build/ios/ipa
+              cd "$ARCHIVE_DIR/Products/Applications"
+              mkdir -p Payload
+              cp -r Runner.app Payload/
+              zip -r ../../../../ipa/TriumphHotels-unsigned.ipa Payload
+              cd -
+            fi
+          fi
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/archive/Runner.xcarchive
+
+    publishing:
+      # Optional: set up email notifications
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: true
