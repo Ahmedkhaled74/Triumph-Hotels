@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 import 'package:triumph_hotels/core/constants/app_colors.dart';
+import 'package:triumph_hotels/core/constants/app_images.dart';
+import 'package:triumph_hotels/core/utils/video_cache_manager.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class VideoWelcomeWidget extends StatefulWidget {
@@ -47,24 +49,52 @@ class _VideoWelcomeWidgetState extends State<VideoWelcomeWidget> {
     _startTestimonialRotation();
   }
   
-  void _initializeVideo() {
+  void _initializeVideo() async {
     try {
-      final url = 'https://www.triumphhotel.com/media/home_videos/15-7_trumph_reel_10.mp4';
-      _controller = VideoPlayerController.networkUrl(Uri.parse(url));
-      _controller!.initialize().then((_) {
+      const url = VideoCacheManager.homeVideoUrl;
+      final cachedFile = await VideoCacheManager.getExistingCachedVideo(url);
+      
+      if (cachedFile != null) {
+        _controller = VideoPlayerController.file(cachedFile);
+        await _controller!.initialize();
+      } else {
+        VideoCacheManager.cacheVideoInBackground(url);
+        
+        try {
+          _controller = VideoPlayerController.networkUrl(Uri.parse(url));
+          await _controller!.initialize().timeout(const Duration(seconds: 4));
+        } catch (_) {
+          _controller?.dispose();
+          _controller = VideoPlayerController.asset(AppImages.welcomeVideo);
+          await _controller!.initialize();
+        }
+      }
+
+      if (mounted) {
+        _controller!.setLooping(true);
+        _controller!.setVolume(0.0); // Mute for autoplay
+        _controller!.play();
+        setState(() {
+          _initialized = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('Video initialization error: $e');
+      if (mounted && !_initialized) {
+        try {
+          _controller?.dispose();
+          _controller = VideoPlayerController.asset(AppImages.welcomeVideo);
+          await _controller!.initialize();
           if (mounted) {
             _controller!.setLooping(true);
-            _controller!.setVolume(0.0); // Mute for autoplay
+            _controller!.setVolume(0.0);
             _controller!.play();
             setState(() {
               _initialized = true;
             });
           }
-        }).catchError((error) {
-          debugPrint('Error initializing video: $error');
-        });
-    } catch (e) {
-      debugPrint('Video initialization error: $e');
+        } catch (_) {}
+      }
     }
   }
   
@@ -136,27 +166,7 @@ class _VideoWelcomeWidgetState extends State<VideoWelcomeWidget> {
                         child: SizedBox(
                           width: _controller!.value.size.width,
                           height: _controller!.value.size.height,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              VideoPlayer(_controller!),
-                              ValueListenableBuilder(
-                                valueListenable: _controller!,
-                                builder: (context, VideoPlayerValue value, child) {
-                                  if (value.isBuffering) {
-                                    return const Center(
-                                      child: SizedBox(
-                                        width: 40,
-                                        height: 40,
-                                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                                      ),
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
-                                },
-                              ),
-                            ],
-                          ),
+                          child: VideoPlayer(_controller!),
                         ),
                       ),
                     );
@@ -170,27 +180,7 @@ class _VideoWelcomeWidgetState extends State<VideoWelcomeWidget> {
                         child: SizedBox(
                           width: _controller!.value.size.width,
                           height: _controller!.value.size.height,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              VideoPlayer(_controller!),
-                              ValueListenableBuilder(
-                                valueListenable: _controller!,
-                                builder: (context, VideoPlayerValue value, child) {
-                                  if (value.isBuffering) {
-                                    return const Center(
-                                      child: SizedBox(
-                                        width: 40,
-                                        height: 40,
-                                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                                      ),
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
-                                },
-                              ),
-                            ],
-                          ),
+                          child: VideoPlayer(_controller!),
                         ),
                       ),
                     );
@@ -200,29 +190,12 @@ class _VideoWelcomeWidgetState extends State<VideoWelcomeWidget> {
               ),
             )
           else
-            Container(
+            Image.asset(
+              AppImages.videoPlaceholder,
               width: double.infinity,
               height: double.infinity,
-              color: Colors.black,
-              child: Center(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-                  ),
-                  child: Icon(
-                    Icons.hotel,
-                    size: 60,
-                    color: AppColors.primary,
-                  ),
-                ).animate(onPlay: (c) => c.repeat()).shimmer(
-                  duration: 1200.ms, 
-                  color: AppColors.primary.withOpacity(0.3),
-                ),
-              ),
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(color: Colors.black),
             ),
 
           // Dark Overlay - Simple non-interactive layer

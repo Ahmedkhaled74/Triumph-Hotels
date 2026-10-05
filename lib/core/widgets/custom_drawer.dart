@@ -250,6 +250,29 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   ),
                   
+                  _buildMenuSection(
+                    context,
+                    title: localizations.locale.languageCode == 'ar' ? 'قانوني' : 'Legal',
+                    items: [
+                      _buildDrawerItem(
+                        context,
+                        icon: Icons.privacy_tip_outlined,
+                        title: localizations.locale.languageCode == 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy',
+                        subtitle: localizations.locale.languageCode == 'ar' ? 'اقرأ سياسة الخصوصية الخاصة بنا' : 'Read our privacy policy',
+                        onTap: () async {
+                          Navigator.pop(context);
+                          try {
+                            final Uri url = Uri.parse('https://triumphhotel.com/mobile-privacy-policy/');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url, mode: LaunchMode.externalApplication);
+                            }
+                          } catch (_) {}
+                        },
+                        delay: 500,
+                      ),
+                    ],
+                  ),
+                  
                   const SizedBox(height: 20),
                 ],
               ),

@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:triumph_hotels/core/providers/guest_portal_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:triumph_hotels/core/utils/app_translations.dart';
 
 class GuestPortalTransportDetailScreen extends StatefulWidget {
   final Map<String, dynamic> transport;
@@ -68,6 +69,14 @@ class _GuestPortalTransportDetailScreenState
     final destination = widget.destination;
     final isHighlighted = transport['isHighlighted'] == true;
     final maxPax = _getMaxPassengers(transport);
+    
+    final List<String> pickupTimes = [
+      'Now'.tr(context),
+      'In 15 min'.tr(context),
+      'In 30 min'.tr(context),
+      'In 1 hour'.tr(context),
+      'Schedule'.tr(context),
+    ];
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -139,7 +148,7 @@ class _GuestPortalTransportDetailScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Description Section
-                  _buildSectionLabel(theme, Icons.info_outline, 'Description'),
+                  _buildSectionLabel(theme, Icons.info_outline, 'Description'.tr(context)),
                   const SizedBox(height: 10),
                   Text(
                     transport['name'],
@@ -153,7 +162,7 @@ class _GuestPortalTransportDetailScreenState
                   Text(
                     (transport['description']?.toString() ?? '').replaceAll(
                       RegExp(r'up to \d+\s*(pax|passengers)', caseSensitive: false),
-                      'up to $maxPax pax',
+                      'up to {n} pax'.trWith(context, {'n': maxPax}),
                     ),
                     style: GoogleFonts.roboto(
                       color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
@@ -164,7 +173,7 @@ class _GuestPortalTransportDetailScreenState
                   const SizedBox(height: 24),
                   
                   // Destination Card
-                  _buildSectionLabel(theme, Icons.location_on_outlined, 'Destination'),
+                  _buildSectionLabel(theme, Icons.location_on_outlined, 'Destination'.tr(context)),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -190,7 +199,7 @@ class _GuestPortalTransportDetailScreenState
                                   controller: _destinationController,
                                   style: GoogleFonts.roboto(color: theme.textTheme.bodyLarge?.color, fontSize: 16, fontWeight: FontWeight.bold),
                                   decoration: InputDecoration(
-                                    hintText: 'Enter your destination',
+                                    hintText: 'Enter your destination'.tr(context),
                                     hintStyle: GoogleFonts.roboto(color: theme.textTheme.bodyMedium?.color?.withOpacity(0.4), fontWeight: FontWeight.normal),
                                     border: InputBorder.none,
                                     isDense: true,
@@ -200,7 +209,7 @@ class _GuestPortalTransportDetailScreenState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      destination['title'] ?? destination['name'] ?? 'Destination',
+                                      destination['title'] ?? destination['name'] ?? 'Destination'.tr(context),
                                       style: GoogleFonts.roboto(
                                         color: theme.textTheme.bodyLarge?.color,
                                         fontSize: 16,
@@ -209,7 +218,7 @@ class _GuestPortalTransportDetailScreenState
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      destination['subtitle'] ?? 'Fixed rate transfer',
+                                      destination['subtitle'] ?? 'Fixed rate transfer'.tr(context),
                                       style: GoogleFonts.roboto(
                                         color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                                         fontSize: 13,
@@ -225,7 +234,7 @@ class _GuestPortalTransportDetailScreenState
                   const SizedBox(height: 24),
 
                   // Passenger Count
-                  _buildSectionLabel(theme, Icons.people_outline, 'Passengers'),
+                  _buildSectionLabel(theme, Icons.people_outline, 'Passengers'.tr(context)),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -237,14 +246,15 @@ class _GuestPortalTransportDetailScreenState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Number of passengers',
+                        Expanded(
+                          child: Text(
+                          'Number of passengers'.tr(context),
                           style: GoogleFonts.roboto(
                             color: theme.textTheme.bodyMedium?.color,
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                           ),
-                        ),
+                        )),
                         Row(
                           children: [
                             IconButton(
@@ -287,7 +297,7 @@ class _GuestPortalTransportDetailScreenState
                   Padding(
                     padding: const EdgeInsets.only(left: 4),
                     child: Text(
-                      'Max capacity: $maxPax passengers',
+                      'Max capacity: {n} passengers'.trWith(context, {'n': maxPax}),
                       style: GoogleFonts.roboto(
                         color: theme.textTheme.bodyMedium?.color?.withOpacity(0.4),
                         fontSize: 11,
@@ -298,25 +308,26 @@ class _GuestPortalTransportDetailScreenState
                   const SizedBox(height: 24),
 
                   // Pickup Time
-                  _buildSectionLabel(theme, Icons.schedule_outlined, 'Pickup Time'),
+                  _buildSectionLabel(theme, Icons.schedule_outlined, 'Pickup Time'.tr(context)),
                   const SizedBox(height: 10),
                   SizedBox(
                     height: 44,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: _pickupTimes.length,
+                      itemCount: pickupTimes.length,
                       itemBuilder: (context, index) {
-                        final time = _pickupTimes[index];
-                        final isSelected = _selectedPickupTime == time || (time == 'Schedule' && !_pickupTimes.contains(_selectedPickupTime));
+                        final time = pickupTimes[index];
+                        final isSelected = _selectedPickupTime == _pickupTimes[index] || 
+                            (_pickupTimes[index] == 'Schedule' && !_pickupTimes.contains(_selectedPickupTime));
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: ChoiceChip(
-                            label: Text(time == 'Schedule' && isSelected && _selectedPickupTime != 'Schedule' 
-                                ? 'Scheduled' 
+                            label: Text(_pickupTimes[index] == 'Schedule' && isSelected && _selectedPickupTime != 'Schedule' 
+                                ? 'Scheduled'.tr(context)
                                 : time),
                             selected: isSelected,
                             onSelected: (_) async {
-                              if (time == 'Schedule') {
+                              if (_pickupTimes[index] == 'Schedule') {
                                 final date = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
@@ -342,7 +353,7 @@ class _GuestPortalTransportDetailScreenState
                                   }
                                 }
                               } else {
-                                setState(() => _selectedPickupTime = time);
+                                setState(() => _selectedPickupTime = _pickupTimes[index]);
                               }
                             },
                             selectedColor: AppColors.primary,
@@ -373,9 +384,9 @@ class _GuestPortalTransportDetailScreenState
                   const SizedBox(height: 32),
 
                   // Features List
-                  _buildSectionLabel(theme, Icons.star_outline, 'Included'),
+                  _buildSectionLabel(theme, Icons.star_outline, 'Included'.tr(context)),
                   const SizedBox(height: 10),
-                  ..._getFeatures(transport['name']).map(
+                  ..._getFeatures(transport['name'], context).map(
                     (f) => _buildFeatureRow(theme, f),
                   ),
 
@@ -428,7 +439,7 @@ class _GuestPortalTransportDetailScreenState
                           
                           if (destinationName.isEmpty) {
                             setState(() => _confirmed = false);
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a destination.')));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter a destination.'.tr(context))));
                             return;
                           }
                           
@@ -464,7 +475,7 @@ class _GuestPortalTransportDetailScreenState
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                    'Chauffeur Requested!',
+                                    'Chauffeur Requested!'.tr(context),
                                     style: GoogleFonts.roboto(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
@@ -474,7 +485,7 @@ class _GuestPortalTransportDetailScreenState
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    'Your ${transport['name']} is on the way. Please wait at the hotel lobby.',
+                                    'Your {name} is on the way. Please wait at the hotel lobby.'.trWith(context, {'name': transport['name'].toString()}),
                                     style: GoogleFonts.roboto(
                                       color: theme.textTheme.bodyMedium?.color
                                           ?.withOpacity(0.7),
@@ -501,7 +512,7 @@ class _GuestPortalTransportDetailScreenState
                                                 BorderRadius.circular(14)),
                                       ),
                                       child: Text(
-                                        'Done',
+                                        'Done'.tr(context),
                                         style: GoogleFonts.roboto(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -517,7 +528,7 @@ class _GuestPortalTransportDetailScreenState
                         } catch (e) {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Error: $e', style: const TextStyle(color: Colors.white)), backgroundColor: Colors.red),
+                              SnackBar(content: Text('${'Error'.tr(context)}: $e', style: const TextStyle(color: Colors.white)), backgroundColor: Colors.red),
                             );
                             setState(() => _confirmed = false);
                           }
@@ -534,7 +545,7 @@ class _GuestPortalTransportDetailScreenState
                   elevation: 0,
                 ),
                 child: Text(
-                  _confirmed ? 'Request Sent ✓' : 'Confirm & Request Chauffeur',
+                  _confirmed ? 'Request Sent ✓'.tr(context) : 'Confirm & Request Chauffeur'.tr(context),
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -553,14 +564,15 @@ class _GuestPortalTransportDetailScreenState
       children: [
         Icon(icon, color: AppColors.primary, size: 18),
         const SizedBox(width: 8),
-        Text(
+        Expanded(
+          child: Text(
           label,
           style: GoogleFonts.roboto(
             color: theme.textTheme.bodyLarge?.color,
             fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
-        ),
+        )),
       ],
     );
   }
@@ -580,13 +592,14 @@ class _GuestPortalTransportDetailScreenState
             child: Icon(Icons.check, color: AppColors.primary, size: 14),
           ),
           const SizedBox(width: 12),
-          Text(
+          Expanded(
+            child: Text(
             feature,
             style: GoogleFonts.roboto(
               color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
               fontSize: 14,
             ),
-          ),
+          )),
         ],
       ),
     );
@@ -624,54 +637,54 @@ class _GuestPortalTransportDetailScreenState
     return 4;
   }
 
-  List<String> _getFeatures(String name) {
+  List<String> _getFeatures(String name, BuildContext context) {
     final nameLower = name.toLowerCase();
     if (nameLower.contains('bus')) {
       return [
-        'Professional hotel driver',
-        'Spacious air-conditioned Toyota bus',
-        'Luggage storage available',
-        'Up to 14 passengers capacity',
-        'Ideal for large groups & families',
-        'Real-time GPS tracking',
+        'Professional hotel driver'.tr(context),
+        'Spacious air-conditioned Toyota bus'.tr(context),
+        'Luggage storage available'.tr(context),
+        'Up to 14 passengers capacity'.tr(context),
+        'Ideal for large groups & families'.tr(context),
+        'Real-time GPS tracking'.tr(context),
       ];
     } else if (nameLower.contains('corolla')) {
       return [
-        'Professional hotel chauffeur',
-        'Air-conditioned Toyota Corolla',
-        'Complimentary water bottles',
-        'Meet & greet at hotel lobby',
-        'Real-time GPS tracking',
+        'Professional hotel chauffeur'.tr(context),
+        'Air-conditioned Toyota Corolla'.tr(context),
+        'Complimentary water bottles'.tr(context),
+        'Meet & greet at hotel lobby'.tr(context),
+        'Real-time GPS tracking'.tr(context),
       ];
     } else if (name.contains('Hotel Sedan')) {
       return [
-        'Professional hotel chauffeur',
-        'Air-conditioned luxury sedan',
-        'Complimentary water bottles',
-        'Meet & greet at hotel lobby',
-        'Real-time GPS tracking',
+        'Professional hotel chauffeur'.tr(context),
+        'Air-conditioned luxury sedan'.tr(context),
+        'Complimentary water bottles'.tr(context),
+        'Meet & greet at hotel lobby'.tr(context),
+        'Real-time GPS tracking'.tr(context),
       ];
     } else if (name.contains('Van')) {
       return [
-        'Professional hotel driver',
-        'Spacious air-conditioned van',
-        'Luggage storage available',
-        'Ideal for groups & families',
-        'Real-time GPS tracking',
+        'Professional hotel driver'.tr(context),
+        'Spacious air-conditioned van'.tr(context),
+        'Luggage storage available'.tr(context),
+        'Ideal for groups & families'.tr(context),
+        'Real-time GPS tracking'.tr(context),
       ];
     } else if (name.contains('Taxi')) {
       return [
-        'Licensed local driver',
-        'Air-conditioned vehicle',
-        'Metered fare',
-        'Direct hotel booking',
+        'Licensed local driver'.tr(context),
+        'Air-conditioned vehicle'.tr(context),
+        'Metered fare'.tr(context),
+        'Direct hotel booking'.tr(context),
       ];
     } else {
       return [
-        'Shared shuttle service',
-        'Air-conditioned vehicle',
-        'Budget-friendly option',
-        'Pickup from hotel entrance',
+        'Shared shuttle service'.tr(context),
+        'Air-conditioned vehicle'.tr(context),
+        'Budget-friendly option'.tr(context),
+        'Pickup from hotel entrance'.tr(context),
       ];
     }
   }

@@ -229,24 +229,24 @@ class GuestPortalDiscoverScreen extends StatefulWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (locationLink.isNotEmpty)
-                      _buildActionButton(context, Icons.near_me_outlined, 'Map', theme, onTap: () async {
+                      _buildActionButton(context, Icons.near_me_outlined, 'Map'.tr(context), theme, onTap: () async {
                         final url = Uri.tryParse(locationLink);
                         if (url != null && await canLaunchUrl(url)) {
                           await launchUrl(url, mode: LaunchMode.externalApplication);
                         } else {
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Could not open map link')),
+                              SnackBar(content: Text('Could not open map link'.tr(context))),
                             );
                           }
                         }
                       }),
                     if (hasReservation) ...[
                       const SizedBox(width: 16),
-                      _buildActionButton(context, Icons.calendar_today, 'Reserve', theme, onTap: () => _showReservationSheet(context, theme, place)),
+                      _buildActionButton(context, Icons.calendar_today, 'Reserve'.tr(context), theme, onTap: () => _showReservationSheet(context, theme, place)),
                     ],
                     const SizedBox(width: 16),
-                    _buildActionButton(context, Icons.directions_car_outlined, 'Ride', theme, onTap: () => TransportOptionsBottomSheet.show(context, theme, place: place)),
+                    _buildActionButton(context, Icons.directions_car_outlined, 'Ride'.tr(context), theme, onTap: () => TransportOptionsBottomSheet.show(context, theme, place: place)),
                   ],
                 ),
               ),
@@ -276,7 +276,7 @@ class GuestPortalDiscoverScreen extends StatefulWidget {
               Icon(icon, color: AppColors.goldLight, size: 18),
               const SizedBox(width: 8),
               Text(
-                label,
+                label.tr(context),
                 style: GoogleFonts.roboto(
                   color: AppColors.goldLight,
                   fontWeight: FontWeight.bold,
@@ -664,7 +664,7 @@ class _GuestPortalDiscoverScreenState extends State<GuestPortalDiscoverScreen> {
                 onPressed: () => Navigator.pop(context),
               ),
               title: Text(
-                'Discover',
+                'Discover'.tr(context),
                 style: GoogleFonts.roboto(
                   color: AppColors.primary,
                   fontSize: 20,
@@ -1046,7 +1046,7 @@ class _GuestPortalDiscoverScreenState extends State<GuestPortalDiscoverScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Discover',
+                            'Discover'.tr(context),
                             style: GoogleFonts.roboto(
                               color: AppColors.goldLight,
                               fontWeight: FontWeight.bold,

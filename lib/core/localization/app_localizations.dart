@@ -36,6 +36,7 @@ class AppLocalizations {
 
   // Navigation
   String get home => _getLocalizedValue('home');
+  String get experience => _getLocalizedValue('experience');
   String get hotels => _getLocalizedValue('hotels');
   String get gallery => _getLocalizedValue('gallery');
   String get about => _getLocalizedValue('about');
@@ -138,7 +139,71 @@ class AppLocalizations {
   String get loyaltyPoints => _getLocalizedValue('loyaltyPoints');
   String get points => _getLocalizedValue('points');
   String get redeem => _getLocalizedValue('redeem');
-  //String get personalInformation => _getLocalizedValue('personalInformation');
+  
+  // Profile & Notifications
+  String get updateFailed => _getLocalizedValue('updateFailed');
+  String get welcomeGuest => _getLocalizedValue('welcomeGuest');
+  String get signInToManage => _getLocalizedValue('signInToManage');
+  String get createAccount => _getLocalizedValue('createAccount');
+  String get triumphMember => _getLocalizedValue('triumphMember');
+  String get member => _getLocalizedValue('member');
+  String get firstName => _getLocalizedValue('firstName');
+  String get lastName => _getLocalizedValue('lastName');
+  String get nationality => _getLocalizedValue('nationality');
+  String get notProvided => _getLocalizedValue('notProvided');
+  String get failedToLoadNotifications => _getLocalizedValue('failedToLoadNotifications');
+  String get noNewOffersOrUpdates => _getLocalizedValue('noNewOffersOrUpdates');
+
+  // Transport
+  String get customDestination => _getLocalizedValue('customDestination');
+  String get availableTransports => _getLocalizedValue('availableTransports');
+  String get toLabel => _getLocalizedValue('toLabel');
+  String get noTransportOptions => _getLocalizedValue('noTransportOptions');
+  String get hotelCar => _getLocalizedValue('hotelCar');
+  String premiumCarUpTo(int capacity) => '${_getLocalizedValue('premiumCarUpTo')} $capacity ${_getLocalizedValue('pax')}';
+  String spaciousVehicleUpTo(int capacity) => '${_getLocalizedValue('spaciousVehicleUpTo')} $capacity ${_getLocalizedValue('pax')}';
+  String get recommended => _getLocalizedValue('recommended');
+  String get destination => _getLocalizedValue('destination');
+  String get enterDestination => _getLocalizedValue('enterDestination');
+  String get fixedRateTransfer => _getLocalizedValue('fixedRateTransfer');
+  String get passengers => _getLocalizedValue('passengers');
+  String get numberOfPassengers => _getLocalizedValue('numberOfPassengers');
+  String maxCapacity(int cap) => '${_getLocalizedValue('maxCapacity')} $cap ${_getLocalizedValue('passengers')}';
+  String get pickupTime => _getLocalizedValue('pickupTime');
+  String get now => _getLocalizedValue('now');
+  String get in15Min => _getLocalizedValue('in15Min');
+  String get in30Min => _getLocalizedValue('in30Min');
+  String get in1Hour => _getLocalizedValue('in1Hour');
+  String get schedule => _getLocalizedValue('schedule');
+  String get scheduled => _getLocalizedValue('scheduled');
+  String get included => _getLocalizedValue('included');
+  String get pleaseEnterDestination => _getLocalizedValue('pleaseEnterDestination');
+  String get chauffeurRequested => _getLocalizedValue('chauffeurRequested');
+  String transportOnTheWay(String name) => '${_getLocalizedValue('your')} $name ${_getLocalizedValue('isOnTheWay')}';
+  String get requestSent => _getLocalizedValue('requestSent');
+  String get confirmAndRequestChauffeur => _getLocalizedValue('confirmAndRequestChauffeur');
+  
+  // Transport features
+  String get professionalHotelDriver => _getLocalizedValue('professionalHotelDriver');
+  String get professionalHotelChauffeur => _getLocalizedValue('professionalHotelChauffeur');
+  String get spaciousAirConditionedToyotaBus => _getLocalizedValue('spaciousAirConditionedToyotaBus');
+  String get spaciousAirConditionedVan => _getLocalizedValue('spaciousAirConditionedVan');
+  String get airConditionedToyotaCorolla => _getLocalizedValue('airConditionedToyotaCorolla');
+  String get airConditionedLuxurySedan => _getLocalizedValue('airConditionedLuxurySedan');
+  String get airConditionedVehicle => _getLocalizedValue('airConditionedVehicle');
+  String get luggageStorageAvailable => _getLocalizedValue('luggageStorageAvailable');
+  String get upTo14PassengersCapacity => _getLocalizedValue('upTo14PassengersCapacity');
+  String get idealForLargeGroups => _getLocalizedValue('idealForLargeGroups');
+  String get idealForGroups => _getLocalizedValue('idealForGroups');
+  String get realTimeGPSTracking => _getLocalizedValue('realTimeGPSTracking');
+  String get complimentaryWaterBottles => _getLocalizedValue('complimentaryWaterBottles');
+  String get meetAndGreetLobby => _getLocalizedValue('meetAndGreetLobby');
+  String get licensedLocalDriver => _getLocalizedValue('licensedLocalDriver');
+  String get meteredFare => _getLocalizedValue('meteredFare');
+  String get directHotelBooking => _getLocalizedValue('directHotelBooking');
+  String get sharedShuttleService => _getLocalizedValue('sharedShuttleService');
+  String get budgetFriendlyOption => _getLocalizedValue('budgetFriendlyOption');
+  String get pickupFromHotelEntrance => _getLocalizedValue('pickupFromHotelEntrance');
   // String get email => _getLocalizedValue('email');
   // String get phone => _getLocalizedValue('phone');
   String get notifications => _getLocalizedValue('notifications');
@@ -347,6 +412,7 @@ class AppLocalizations {
           case 'exploreHotels': return 'استكشف الفنادق';
           case 'whereLuxuryMeetsComfort': return 'حيث يلتقي الفخامة بالراحة';
           case 'home': return 'الرئيسية';
+          case 'experience': return 'التجارب';
           case 'hotels': return 'الفنادق';
           case 'gallery': return 'معرض الصور';
           case 'about': return 'حول';
@@ -599,6 +665,70 @@ class AppLocalizations {
           // Hotel Properties
           case 'triumphLuxuryHotelDescription': return 'تصاميم عصرية وديكورات أنيقة في قلب التجمع الخامس بالقاهرة الجديدة.';
           case 'triumphPlazaHotelDescription': return 'استمتع بسحر هليوبوليس التاريخي مع مفهوم الضيافة الفاخر من 4 نجوم.';
+
+          case 'updateFailed': return 'فشل التحديث';
+          case 'welcomeGuest': return 'مرحباً بالضيف';
+          case 'signInToManage': return 'قم بتسجيل الدخول لإدارة حجوزاتك والوصول إلى العروض الحصرية والاستمتاع بإقامتك الفاخرة.';
+          case 'createAccount': return 'إنشاء حساب';
+          case 'triumphMember': return 'عضو تريومف';
+          case 'member': return 'عضو';
+          case 'firstName': return 'الاسم الأول';
+          case 'lastName': return 'الاسم الأخير';
+          case 'nationality': return 'الجنسية';
+          case 'notProvided': return 'غير متوفر';
+          case 'failedToLoadNotifications': return 'فشل في تحميل الإشعارات';
+          case 'noNewOffersOrUpdates': return 'لا توجد عروض أو تحديثات جديدة بعد.';
+          
+          case 'customDestination': return 'وجهة مخصصة';
+          case 'availableTransports': return 'وسائل النقل المتاحة';
+          case 'toLabel': return 'إلى';
+          case 'noTransportOptions': return 'لا توجد وسائل نقل متاحة في الوقت الحالي.';
+          case 'hotelCar': return 'سيارة الفندق';
+          case 'premiumCarUpTo': return 'سيارة فاخرة، حتى';
+          case 'spaciousVehicleUpTo': return 'مركبة واسعة، حتى';
+          case 'pax': return 'ركاب';
+          case 'recommended': return 'موصى به';
+          case 'destination': return 'الوجهة';
+          case 'enterDestination': return 'أدخل وجهتك';
+          case 'fixedRateTransfer': return 'نقل بسعر ثابت';
+          case 'passengers': return 'الركاب';
+          case 'numberOfPassengers': return 'عدد الركاب';
+          case 'maxCapacity': return 'السعة القصوى:';
+          case 'pickupTime': return 'وقت الاستلام';
+          case 'now': return 'الآن';
+          case 'in15Min': return 'خلال 15 دقيقة';
+          case 'in30Min': return 'خلال 30 دقيقة';
+          case 'in1Hour': return 'خلال 1 ساعة';
+          case 'schedule': return 'جدولة';
+          case 'scheduled': return 'مجدول';
+          case 'included': return 'مشمول';
+          case 'pleaseEnterDestination': return 'يرجى إدخال الوجهة.';
+          case 'chauffeurRequested': return 'تم طلب السائق!';
+          case 'your': return 'الـ';
+          case 'isOnTheWay': return 'في الطريق إليك. يرجى الانتظار في بهو الفندق.';
+          case 'requestSent': return 'تم إرسال الطلب ✓';
+          case 'confirmAndRequestChauffeur': return 'تأكيد وطلب السائق';
+          
+          case 'professionalHotelDriver': return 'سائق فندق محترف';
+          case 'professionalHotelChauffeur': return 'سائق خاص محترف';
+          case 'spaciousAirConditionedToyotaBus': return 'باص تويوتا واسع ومكيف';
+          case 'spaciousAirConditionedVan': return 'فان واسع ومكيف';
+          case 'airConditionedToyotaCorolla': return 'تويوتا كورولا مكيفة';
+          case 'airConditionedLuxurySedan': return 'سيارة سيدان فاخرة ومكيفة';
+          case 'airConditionedVehicle': return 'مركبة مكيفة';
+          case 'luggageStorageAvailable': return 'يتوفر مكان لتخزين الأمتعة';
+          case 'upTo14PassengersCapacity': return 'سعة تصل إلى 14 راكباً';
+          case 'idealForLargeGroups': return 'مثالي للمجموعات الكبيرة والعائلات';
+          case 'idealForGroups': return 'مثالي للمجموعات والعائلات';
+          case 'realTimeGPSTracking': return 'تتبع GPS في الوقت الفعلي';
+          case 'complimentaryWaterBottles': return 'زجاجات مياه مجانية';
+          case 'meetAndGreetLobby': return 'استقبال وترحيب في بهو الفندق';
+          case 'licensedLocalDriver': return 'سائق محلي مرخص';
+          case 'meteredFare': return 'أجرة بالعداد';
+          case 'directHotelBooking': return 'حجز مباشر من الفندق';
+          case 'sharedShuttleService': return 'خدمة نقل مشتركة';
+          case 'budgetFriendlyOption': return 'خيار اقتصادي';
+          case 'pickupFromHotelEntrance': return 'الاستلام من مدخل الفندق';
           
           // Hotel Locations
           case 'minutesFrom5AShoppingPlaza': return '3 دقائق من مركز 5A التجاري';
@@ -632,6 +762,69 @@ class AppLocalizations {
       default:
         switch (key) {
           case 'appName': return 'Triumph Hotels';
+          case 'updateFailed': return 'Update failed';
+          case 'welcomeGuest': return 'Welcome Guest';
+          case 'signInToManage': return 'Sign in to manage your bookings, access exclusive offers, and enjoy your luxury stay.';
+          case 'createAccount': return 'Create Account';
+          case 'triumphMember': return 'Triumph Member';
+          case 'member': return 'Member';
+          case 'firstName': return 'First Name';
+          case 'lastName': return 'Last Name';
+          case 'nationality': return 'Nationality';
+          case 'notProvided': return 'Not provided';
+          case 'failedToLoadNotifications': return 'Failed to load notifications';
+          case 'noNewOffersOrUpdates': return 'No new offers or updates yet.';
+          
+          case 'customDestination': return 'Custom Destination';
+          case 'availableTransports': return 'Available Transports';
+          case 'toLabel': return 'To';
+          case 'noTransportOptions': return 'No transportation options available at the moment.';
+          case 'hotelCar': return 'Hotel Car';
+          case 'premiumCarUpTo': return 'Premium car, up to';
+          case 'spaciousVehicleUpTo': return 'Spacious vehicle, up to';
+          case 'pax': return 'pax';
+          case 'recommended': return 'Recommended';
+          case 'destination': return 'Destination';
+          case 'enterDestination': return 'Enter your destination';
+          case 'fixedRateTransfer': return 'Fixed rate transfer';
+          case 'passengers': return 'Passengers';
+          case 'numberOfPassengers': return 'Number of passengers';
+          case 'maxCapacity': return 'Max capacity:';
+          case 'pickupTime': return 'Pickup Time';
+          case 'now': return 'Now';
+          case 'in15Min': return 'In 15 min';
+          case 'in30Min': return 'In 30 min';
+          case 'in1Hour': return 'In 1 hour';
+          case 'schedule': return 'Schedule';
+          case 'scheduled': return 'Scheduled';
+          case 'included': return 'Included';
+          case 'pleaseEnterDestination': return 'Please enter a destination.';
+          case 'chauffeurRequested': return 'Chauffeur Requested!';
+          case 'your': return 'Your';
+          case 'isOnTheWay': return 'is on the way. Please wait at the hotel lobby.';
+          case 'requestSent': return 'Request Sent ✓';
+          case 'confirmAndRequestChauffeur': return 'Confirm & Request Chauffeur';
+          
+          case 'professionalHotelDriver': return 'Professional hotel driver';
+          case 'professionalHotelChauffeur': return 'Professional hotel chauffeur';
+          case 'spaciousAirConditionedToyotaBus': return 'Spacious air-conditioned Toyota bus';
+          case 'spaciousAirConditionedVan': return 'Spacious air-conditioned van';
+          case 'airConditionedToyotaCorolla': return 'Air-conditioned Toyota Corolla';
+          case 'airConditionedLuxurySedan': return 'Air-conditioned luxury sedan';
+          case 'airConditionedVehicle': return 'Air-conditioned vehicle';
+          case 'luggageStorageAvailable': return 'Luggage storage available';
+          case 'upTo14PassengersCapacity': return 'Up to 14 passengers capacity';
+          case 'idealForLargeGroups': return 'Ideal for large groups & families';
+          case 'idealForGroups': return 'Ideal for groups & families';
+          case 'realTimeGPSTracking': return 'Real-time GPS tracking';
+          case 'complimentaryWaterBottles': return 'Complimentary water bottles';
+          case 'meetAndGreetLobby': return 'Meet & greet at hotel lobby';
+          case 'licensedLocalDriver': return 'Licensed local driver';
+          case 'meteredFare': return 'Metered fare';
+          case 'directHotelBooking': return 'Direct hotel booking';
+          case 'sharedShuttleService': return 'Shared shuttle service';
+          case 'budgetFriendlyOption': return 'Budget-friendly option';
+          case 'pickupFromHotelEntrance': return 'Pickup from hotel entrance';
           case 'welcome': return 'Welcome';
           case 'discoverYourPerfectStay': return 'Discover Your Perfect Stay';
           case 'continueAsGuest': return 'Continue as Guest';
@@ -639,6 +832,7 @@ class AppLocalizations {
           case 'exploreHotels': return 'Explore Hotels';
           case 'whereLuxuryMeetsComfort': return 'Where Luxury Meets Comfort';
           case 'home': return 'Home';
+          case 'experience': return 'Experience';
           case 'hotels': return 'Hotels';
           case 'gallery': return 'Gallery';
           case 'about': return 'About';

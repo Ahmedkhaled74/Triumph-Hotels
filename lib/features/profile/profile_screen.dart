@@ -79,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (!success && mounted && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(authProvider.errorMessage ?? 'Update failed'),
+                          content: Text(authProvider.errorMessage ?? localizations.updateFailed),
                           backgroundColor: Colors.red,
                         ),
                       );
@@ -137,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 32),
             
             Text(
-              'Welcome Guest',
+              localizations.welcomeGuest,
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -146,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
             
             Text(
-              'Sign in to manage your bookings, access exclusive offers, and enjoy your luxury stay.',
+              localizations.signInToManage,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: theme.textTheme.bodyLarge?.color?.withOpacity(0.7),
@@ -174,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   elevation: 0,
                 ),
                 child: Text(
-                  'SIGN IN',
+                  localizations.signIn.toUpperCase(),
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 child: Text(
-                  'CREATE ACCOUNT',
+                  localizations.createAccount.toUpperCase(),
                   style: GoogleFonts.roboto(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -314,7 +314,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 
                 // User Name
                 Text(
-                  fullName.isEmpty ? 'Triumph Member' : fullName,
+                  fullName.isEmpty ? localizations.triumphMember : fullName,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontSize: ResponsiveUtils.getResponsiveFontSize(context, smallSize: 24, mediumSize: 28, largeSize: 32),
                     fontWeight: FontWeight.bold,
@@ -348,7 +348,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Member', // Real tier logic here later
+                        localizations.member, // Real tier logic here later
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: Colors.amber,
                           fontSize: 14,
@@ -371,24 +371,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               _buildInfoRow(
                 icon: Icons.person,
-                label: 'First Name',
-                value: user?.firstName ?? 'Not provided',
+                label: localizations.firstName,
+                value: user?.firstName ?? localizations.notProvided,
                 isEditing: _isEditing,
                 onChanged: (value) => _tempFirstName = value,
               ),
               _buildDivider(),
               _buildInfoRow(
                 icon: Icons.person,
-                label: 'Last Name',
-                value: user?.lastName ?? 'Not provided',
+                label: localizations.lastName,
+                value: user?.lastName ?? localizations.notProvided,
                 isEditing: _isEditing,
                 onChanged: (value) => _tempLastName = value,
               ),
               _buildDivider(),
               _buildInfoRow(
                 icon: Icons.public,
-                label: 'Nationality',
-                value: user?.nationality ?? 'Not provided',
+                label: localizations.nationality,
+                value: user?.nationality ?? localizations.notProvided,
                 isEditing: _isEditing,
                 onChanged: (value) => _tempNationality = value,
               ),
@@ -396,7 +396,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildInfoRow(
                 icon: Icons.email_outlined,
                 label: localizations.email,
-                value: user?.email ?? 'Not provided',
+                value: user?.email ?? localizations.notProvided,
                 isEditing: false, // Don't allow email editing for now
                 onChanged: (_) {},
               ),
@@ -404,7 +404,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildInfoRow(
                 icon: Icons.phone_outlined,
                 label: localizations.phone,
-                value: user?.phone ?? 'Not provided',
+                value: user?.phone ?? localizations.notProvided,
                 isEditing: _isEditing,
                 onChanged: (value) => _tempPhone = value,
               ),
@@ -534,6 +534,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required Function(String) onChanged,
   }) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context)!;
     
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -555,7 +556,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: isEditing
                 ? TextFormField(
-                    initialValue: value == 'Not provided' ? '' : value,
+                    initialValue: value == localizations.notProvided ? '' : value,
                     onChanged: onChanged,
                     decoration: InputDecoration(
                       hintText: label,

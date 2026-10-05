@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           // Background Image
           Image.asset(
-            AppImages.welcomeVideo, // Or a static luxury hotel background
+            AppImages.videoPlaceholder,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
           ),

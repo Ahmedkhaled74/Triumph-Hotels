@@ -77,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         children: [
           // Background Image
           Image.asset(
-            AppImages.welcomeVideo, // Or a static background
+            AppImages.videoPlaceholder,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
           ),

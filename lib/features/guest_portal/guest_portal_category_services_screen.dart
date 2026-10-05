@@ -331,7 +331,7 @@ class GuestPortalCategoryServicesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  service['title']!,
+                  service['title']!.tr(context),
                   style: GoogleFonts.roboto(
                     color: theme.textTheme.bodyLarge?.color,
                     fontSize: 16,
@@ -340,7 +340,7 @@ class GuestPortalCategoryServicesScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  service['desc']!,
+                  service['desc']!.tr(context),
                   style: GoogleFonts.roboto(
                     color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
                     fontSize: 13,

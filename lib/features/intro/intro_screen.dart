@@ -6,8 +6,12 @@ import 'package:triumph_hotels/core/utils/responsive_utils.dart';
 import 'package:triumph_hotels/features/home/home_screen.dart';
 import 'package:triumph_hotels/features/auth/login_screen.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:triumph_hotels/core/constants/app_images.dart';
 import 'package:triumph_hotels/core/utils/video_cache_manager.dart';
+import 'package:triumph_hotels/core/utils/splash_config.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // _VideoBackground — the fully hardened video background layer.
@@ -39,204 +43,6 @@ import 'package:triumph_hotels/core/utils/video_cache_manager.dart';
 //     dimensions in the tree are stable from the first build, preventing
 //     the 0×0 -> real-size "snap" or vibration.
 // ─────────────────────────────────────────────────────────────────────────────
-class _VideoBackground extends StatefulWidget {
-  final VoidCallback? onReady;
-  const _VideoBackground({this.onReady});
-
-  @override
-  State<_VideoBackground> createState() => _VideoBackgroundState();
-}
-
-class _VideoBackgroundState extends State<_VideoBackground> with WidgetsBindingObserver {
-  VideoPlayerController? _controller;
-  bool _videoReady = false;
-  bool _isInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _initializeController();
-  }
-
-  void _initializeController() async {
-    try {
-      final url = 'https://www.triumphhotel.com/media/home_videos/15-7_trumph_reel_10.mp4';
-      
-      // 1. Check if we already have it cached
-      final cachedFile = await VideoCacheManager.getExistingCachedVideo(url);
-      
-      if (cachedFile != null) {
-        _controller = VideoPlayerController.file(cachedFile);
-        debugPrint('IntroScreen: Playing cached video from ${cachedFile.path}');
-      } else {
-        // 2. Play from network immediately so user doesn't wait
-        _controller = VideoPlayerController.networkUrl(Uri.parse(url));
-        debugPrint('IntroScreen: Streaming video from network');
-        
-        // 3. Kick off background download so it's instant next time
-        VideoCacheManager.cacheVideoInBackground(url);
-      }
-      
-      _controller!.addListener(_onControllerUpdate);
-      _controller!.initialize().then((_) {
-        if (!mounted) return;
-        setState(() => _isInitialized = true);
-        _controller!.setLooping(true);
-        _controller!.setVolume(0.0);
-        _controller!.play();
-
-        // Safety fallback: force reveal after 6s
-        Future.delayed(const Duration(seconds: 6), () {
-          if (!mounted || _videoReady) return;
-          _controller?.removeListener(_onControllerUpdate);
-          setState(() {
-            _videoReady = true;
-          });
-          widget.onReady?.call();
-        });
-      }).catchError((Object e) {
-        debugPrint('Intro video init error: $e');
-      });
-    } catch (e) {
-      debugPrint('Intro video controller error: $e');
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (!_isInitialized || _controller == null) return;
-    if (state == AppLifecycleState.paused) {
-      _controller!.pause();
-    } else if (state == AppLifecycleState.resumed) {
-      _controller!.play();
-    }
-  }
-
-  void _onControllerUpdate() {
-    if (_videoReady || !_isInitialized || _controller == null) return;
-    final value = _controller!.value;
-    if (value.isPlaying &&
-        value.position > const Duration(milliseconds: 3000) &&
-        value.size != Size.zero) {
-      _controller?.removeListener(_onControllerUpdate);
-      if (!mounted) return;
-      setState(() {
-        _videoReady = true;
-      });
-      widget.onReady?.call();
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    if (_isInitialized) {
-      _controller?.removeListener(_onControllerUpdate);
-      _controller?.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // We use the controller value directly for dimensions if ready, 
-    // or a stable 16:9 aspect ratio fallback during "pre-warming"
-    final size = _controller?.value.size ?? Size.zero;
-    final double vWidth = size.width > 0 ? size.width : 1920;
-    final double vHeight = size.height > 0 ? size.height : 1080;
-
-    return RepaintBoundary(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 1. THE VIDEO LAYER
-          // It is ALWAYS in the widget tree. This is critical.
-          // It ensures the platform Surface/Texture is created immediately.
-          // We hide it with Opacity(0) until the hardware decoder is 100% stable.
-          IgnorePointer(
-            child: Opacity(
-              opacity: _videoReady ? 1.0 : 0.0,
-              child: SizedBox.expand(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: vWidth,
-                    height: vHeight,
-                    child: _controller != null ? Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        VideoPlayer(_controller!),
-                        ValueListenableBuilder(
-                          valueListenable: _controller!,
-                          builder: (context, VideoPlayerValue value, child) {
-                            if (value.isBuffering) {
-                              return const Center(
-                                child: SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                                ),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      ],
-                    ) : const SizedBox(),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          
-          // 2. THE PLACEHOLDER LAYER
-          // Only removed once video is confirmed ready.
-          if (!_videoReady)
-            IgnorePointer(
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Container(color: Colors.black),
-                  
-                  // Luxury Loading Indicator
-                  Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'PREPARING EXPERIENCE',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
-                            fontSize: 10,
-                            letterSpacing: 4,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// IntroScreen — waits for video to be ready before showing UI content.
-// ─────────────────────────────────────────────────────────────────────────────
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 
@@ -244,173 +50,403 @@ class IntroScreen extends StatefulWidget {
   State<IntroScreen> createState() => _IntroScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> {
-  bool _contentVisible = false;
+class _IntroScreenState extends State<IntroScreen> with WidgetsBindingObserver {
+  bool _isLoading = true;
+  bool _useImageFallback = false;
+  SplashConfig? _splashConfig;
+  VideoPlayerController? _videoController;
+  bool _disposed = false;
 
-  void _onVideoReady() {
-    if (mounted) setState(() => _contentVisible = true);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _prepareIntro();
+  }
+
+  Future<void> _prepareIntro() async {
+    debugPrint('IntroScreen: preparing intro... checking cached config');
+
+    // 1. Fetch config — use in-memory cache first, then try network.
+    SplashConfig? config = SplashConfig.cached;
+    if (config == null) {
+      config = await SplashConfig.fetch();
+    }
+    if (config != null && mounted && !_disposed) {
+      _splashConfig = config;
+    }
+
+    final hasApiVideo = config != null &&
+        config.isActive &&
+        config.hasVideo &&
+        config.videoUrl != null &&
+        config.videoUrl!.isNotEmpty;
+
+    // 2. Try to find or play the API video (cached first, then live stream).
+    bool apiVideoPlaying = false;
+    if (hasApiVideo) {
+      final videoUrl = config.videoUrl!;
+
+      // 2a. Check on-disk cache.
+      final isCached = await VideoCacheManager.isCacheValid(videoUrl, config.version);
+      File? cachedFile;
+      if (isCached) {
+        cachedFile = await VideoCacheManager.getExistingCachedVideo(videoUrl);
+      }
+
+      if (cachedFile != null) {
+        // ── Play from cache ───────────────────────────────────────────────
+        debugPrint('IntroScreen: playing API video FROM CACHE: ${cachedFile.path}');
+        _videoController = VideoPlayerController.file(cachedFile);
+        try {
+          await _videoController!.initialize();
+          if (_disposed || !mounted) return;
+          _videoController!.setLooping(config.loop);
+          _videoController!.setVolume(config.muted ? 0.0 : 1.0);
+          await _videoController!.play();
+          apiVideoPlaying = true;
+          debugPrint('IntroScreen: API cached video playing!');
+        } catch (e) {
+          debugPrint('IntroScreen: cached file failed to play, will try network – $e');
+          _videoController?.dispose();
+          _videoController = null;
+        }
+      }
+
+      if (!apiVideoPlaying) {
+        // ── Try playing live from network (same launch, no wait) ──────────
+        debugPrint('IntroScreen: no valid cache – trying live network stream: $videoUrl');
+        // Start background download in parallel so next launch has it cached.
+        VideoCacheManager.cacheVideoInBackground(videoUrl, version: config.version);
+        try {
+          _videoController = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+          await _videoController!.initialize().timeout(const Duration(seconds: 8));
+          if (_disposed || !mounted) return;
+          _videoController!.setLooping(config.loop);
+          _videoController!.setVolume(config.muted ? 0.0 : 1.0);
+          await _videoController!.play();
+          apiVideoPlaying = true;
+          debugPrint('IntroScreen: API video playing via LIVE STREAM!');
+        } catch (e) {
+          debugPrint('IntroScreen: live stream failed, falling back to local asset – $e');
+          _videoController?.dispose();
+          _videoController = null;
+        }
+      }
+    }
+
+    // 3. Fallback to local asset if API video could not be played.
+    if (!apiVideoPlaying) {
+      debugPrint('IntroScreen: playing local FALLBACK video: ${AppImages.welcomeVideo}');
+      _videoController = VideoPlayerController.asset(AppImages.welcomeVideo);
+      try {
+        await _videoController!.initialize();
+        if (_disposed || !mounted) return;
+        _videoController!.setLooping(config?.loop ?? true);
+        _videoController!.setVolume(config?.muted ?? true ? 0.0 : 1.0);
+        await _videoController!.play();
+        debugPrint('IntroScreen: local fallback video playing!');
+      } catch (e, st) {
+        debugPrint('IntroScreen[ERROR]: local video init failed:\n$e\n$st');
+        if (_disposed || !mounted) return;
+        setState(() {
+          _useImageFallback = true;
+        });
+      }
+    }
+
+    // 4. Done — update UI.
+    if (!_disposed && mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+
+    // 5. In background, refresh config and trigger cache update if version changed.
+    SplashConfig.fetch(forceRefresh: true).then((fetchedConfig) {
+      if (fetchedConfig == null) return;
+      if (!_disposed && mounted && fetchedConfig != _splashConfig) {
+        setState(() {
+          _splashConfig = fetchedConfig;
+        });
+      }
+      if (fetchedConfig.isActive &&
+          fetchedConfig.hasVideo &&
+          fetchedConfig.videoUrl != null &&
+          fetchedConfig.videoUrl!.isNotEmpty) {
+        VideoCacheManager.isCacheValid(fetchedConfig.videoUrl!, fetchedConfig.version)
+            .then((valid) {
+          if (!valid) {
+            debugPrint('IntroScreen: version changed – caching new API video for next launch...');
+            VideoCacheManager.cacheVideoInBackground(
+                fetchedConfig.videoUrl!,
+                version: fetchedConfig.version);
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_videoController == null || !_videoController!.value.isInitialized) return;
+    if (state == AppLifecycleState.paused) {
+      _videoController!.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      _videoController!.play();
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    WidgetsBinding.instance.removeObserver(this);
+    _videoController?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // ─────────────────────────────────────────────────────────────────────────
+    // Phase 1: Loading Indicator Screen while config & video are being fetched
+    // ─────────────────────────────────────────────────────────────────────────
+    if (_isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                width: 44,
+                height: 44,
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 2.5,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'PREPARING EXPERIENCE',
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.6),
+                  fontSize: 11,
+                  letterSpacing: 4,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'sans-serif',
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Phase 2: The Intro Screen with Video (or Fallback Image) and Buttons
+    // ─────────────────────────────────────────────────────────────────────────
     final localizations = AppLocalizations.of(context)!;
+    final config = _splashConfig;
+
+    final titleText = (config?.title.isNotEmpty == true)
+        ? config!.title
+        : localizations.appName;
+    final subtitleText = (config?.subtitle.isNotEmpty == true)
+        ? config!.subtitle
+        : localizations.whereLuxuryMeetsComfort;
+    final primaryBtnText = (config?.primaryButtonText.isNotEmpty == true)
+        ? config!.primaryButtonText
+        : localizations.exploreHotels;
+    final secondaryBtnText = (config?.secondaryButtonText.isNotEmpty == true)
+        ? config!.secondaryButtonText
+        : localizations.signIn;
+    final guestLinkText = (config?.guestLinkText.isNotEmpty == true)
+        ? config!.guestLinkText
+        : localizations.continueAsGuest;
+    final overlayOpacity = config?.overlayOpacity ?? 0.35;
+    final posterUrl = config?.posterUrl;
+
+    final size = _videoController?.value.size ?? Size.zero;
+    final double vWidth = size.width > 0 ? size.width : 1920;
+    final double vHeight = size.height > 0 ? size.height : 1080;
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
+        fit: StackFit.expand,
         children: [
-          // Video lives in its own fully isolated subtree.
-          _VideoBackground(onReady: _onVideoReady),
-
-          // All overlay content is hidden until video is ready
-          if (_contentVisible) ...[
-            // ── Gradient overlay ──────────────────────────────────────────
-            Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.2),
-                      Colors.black.withOpacity(0.8),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            // ── Title section ─────────────────────────────────────────────
-            Positioned(
-              top: ResponsiveUtils.getResponsiveHeight(context, 0.08),
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
-                  Text(
-                    localizations.appName,
-                    style: GoogleFonts.greatVibes(
-                      color: Colors.white,
-                      fontSize: ResponsiveUtils.getResponsiveFontSize(
-                        context,
-                        smallSize: 32,
-                        mediumSize: 38,
-                        largeSize: 44,
-                        extraLargeSize: 50,
-                      ),
-                      fontWeight: FontWeight.w400,
-                      height: 1.1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ).animate().fade(duration: 1000.ms),
-
-                  SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.01)),
-
-                  Text(
-                    localizations.whereLuxuryMeetsComfort,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
-                      fontFamily: 'sans-serif',
-                      fontSize: ResponsiveUtils.getResponsiveFontSize(
-                        context,
-                        smallSize: 12,
-                        mediumSize: 14,
-                        largeSize: 16,
-                        extraLargeSize: 18,
-                      ),
-                      fontWeight: FontWeight.w300,
-                      letterSpacing: 2.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ).animate().fade(delay: 200.ms, duration: 1000.ms),
-
-                  SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
-
-                  Container(
-                    width: ResponsiveUtils.getResponsiveWidth(context, 0.15),
-                    height: 1,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          Colors.white.withOpacity(0.6),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ).animate().fade(delay: 400.ms, duration: 800.ms),
-                ],
-              ),
-            ),
-
-            // ── Bottom buttons ────────────────────────────────────────────
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.all(
-                    ResponsiveUtils.getResponsiveWidth(context, 0.06),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _PrimaryButton(
-                        label: localizations.exploreHotels,
-                        icon: Icons.explore,
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
-                        ),
-                      ).animate().fade(delay: 600.ms, duration: 1000.ms),
-
-                      SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
-
-                      _GlassButton(
-                        label: localizations.signIn,
-                        icon: Icons.person_outline,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const LoginScreen()),
-                          );
-                        },
-                      ).animate().fade(delay: 800.ms, duration: 1000.ms),
-
-                      SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.03)),
-
-                      GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
-                        ),
-                        child: Text(
-                          localizations.continueAsGuest,
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.7),
-                            fontFamily: 'sans-serif',
-                            fontSize: ResponsiveUtils.getResponsiveFontSize(
-                              context,
-                              smallSize: 12,
-                              mediumSize: 13,
-                              largeSize: 14,
-                              extraLargeSize: 15,
-                            ),
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 1,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.white.withOpacity(0.5),
-                            decorationThickness: 1,
+          // ── 1. Video Layer or Fallback Image ──────────────────────────────
+          Positioned.fill(
+            child: _useImageFallback
+                ? ((posterUrl != null && posterUrl.isNotEmpty)
+                    ? Image.network(
+                        posterUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) =>
+                            Image.asset(AppImages.videoPlaceholder, fit: BoxFit.cover),
+                      )
+                    : Image.asset(AppImages.videoPlaceholder, fit: BoxFit.cover))
+                : (_videoController != null && _videoController!.value.isInitialized)
+                    ? SizedBox.expand(
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: vWidth,
+                            height: vHeight,
+                            child: VideoPlayer(_videoController!),
                           ),
                         ),
-                      ).animate().fade(delay: 1000.ms, duration: 800.ms),
-                    ],
-                  ),
+                      )
+                    : Image.asset(AppImages.videoPlaceholder, fit: BoxFit.cover),
+          ),
+
+          // ── 2. Gradient Overlay ──────────────────────────────────────────
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(overlayOpacity * 0.6),
+                    Colors.black.withOpacity(overlayOpacity + 0.45),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
+
+          // ── 3. Title Section ─────────────────────────────────────────────
+          Positioned(
+            top: ResponsiveUtils.getResponsiveHeight(context, 0.08),
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
+                Text(
+                  titleText,
+                  style: GoogleFonts.greatVibes(
+                    color: Colors.white,
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(
+                      context,
+                      smallSize: 32,
+                      mediumSize: 38,
+                      largeSize: 44,
+                      extraLargeSize: 50,
+                    ),
+                    fontWeight: FontWeight.w400,
+                    height: 1.1,
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fade(duration: 800.ms),
+
+                SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.01)),
+
+                Text(
+                  subtitleText,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontFamily: 'sans-serif',
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(
+                      context,
+                      smallSize: 12,
+                      mediumSize: 14,
+                      largeSize: 16,
+                      extraLargeSize: 18,
+                    ),
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 2.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ).animate().fade(delay: 200.ms, duration: 800.ms),
+
+                SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
+
+                Container(
+                  width: ResponsiveUtils.getResponsiveWidth(context, 0.15),
+                  height: 1,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.white.withOpacity(0.6),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ).animate().fade(delay: 400.ms, duration: 600.ms),
+              ],
+            ),
+          ),
+
+          // ── 4. Bottom Buttons Section ────────────────────────────────────
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.all(
+                  ResponsiveUtils.getResponsiveWidth(context, 0.06),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _PrimaryButton(
+                      label: primaryBtnText,
+                      icon: Icons.explore,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      ),
+                    ).animate().fade(delay: 400.ms, duration: 800.ms),
+
+                    SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.02)),
+
+                    _GlassButton(
+                      label: secondaryBtnText,
+                      icon: Icons.person_outline,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const LoginScreen()),
+                        );
+                      },
+                    ).animate().fade(delay: 600.ms, duration: 800.ms),
+
+                    SizedBox(height: ResponsiveUtils.getResponsiveHeight(context, 0.03)),
+
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      ),
+                      child: Text(
+                        guestLinkText,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.7),
+                          fontFamily: 'sans-serif',
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                            context,
+                            smallSize: 12,
+                            mediumSize: 13,
+                            largeSize: 14,
+                            extraLargeSize: 15,
+                          ),
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 1,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.white.withOpacity(0.5),
+                          decorationThickness: 1,
+                        ),
+                      ),
+                    ).animate().fade(delay: 800.ms, duration: 600.ms),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

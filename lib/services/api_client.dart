@@ -17,7 +17,7 @@ class ApiException implements Exception {
 class ApiClient {
   // Local development URL
   //static const String baseUrl = 'http://192.168.10.175:8000/api/v1';
-   static const String baseUrl = 'https://www.triumphhotel.com/api/v1';
+   static const String baseUrl = 'https://triumphhotel.com/api/v1';
 
   Future<Map<String, String>> _getHeaders() async {
     final prefs = await SharedPreferences.getInstance();

@@ -313,6 +313,68 @@ class AppTranslations {
       'ru': 'Нет прошлых заказов на прачечную.', 'zh': '没有过去的洗衣订单。', 'ja': '過去のランドリーの注文はありません。'
     },
 
+    // ── Laundry Categories & Services ──
+    'Standard': {
+      'ar': 'عادي', 'es': 'Estándar', 'fr': 'Standard', 'de': 'Standard',
+      'ru': 'Стандарт', 'zh': '标准', 'ja': '標準'
+    },
+    'Pressing': {
+      'ar': 'كي', 'es': 'Planchado', 'fr': 'Repassage', 'de': 'Bügeln',
+      'ru': 'Глажка', 'zh': '熨烫', 'ja': 'プレス'
+    },
+    'Dry Cleaning': {
+      'ar': 'تنظيف جاف', 'es': 'Lavado en Seco', 'fr': 'Nettoyage à Sec', 'de': 'Chemische Reinigung',
+      'ru': 'Химчистка', 'zh': '干洗', 'ja': 'ドライクリーニング'
+    },
+    'Dry cleaning': {
+      'ar': 'تنظيف جاف', 'es': 'Lavado en Seco', 'fr': 'Nettoyage à Sec', 'de': 'Chemische Reinigung',
+      'ru': 'Химчистка', 'zh': '干洗', 'ja': 'ドライクリーニング'
+    },
+    'dry_cleaning': {
+      'ar': 'تنظيف جاف', 'es': 'Lavado en Seco', 'fr': 'Nettoyage à Sec', 'de': 'Chemische Reinigung',
+      'ru': 'Химчистка', 'zh': '干洗', 'ja': 'ドライクリーニング'
+    },
+    'Standard Laundry': {
+      'ar': 'غسيل عادي', 'es': 'Lavandería Estándar', 'fr': 'Blanchisserie Standard', 'de': 'Standard-Wäsche',
+      'ru': 'Стандартная стирка', 'zh': '标准洗衣', 'ja': '標準ランドリー'
+    },
+    'Pressing Only': {
+      'ar': 'كي فقط', 'es': 'Solo Planchado', 'fr': 'Repassage Uniquement', 'de': 'Nur Bügeln',
+      'ru': 'Только глажка', 'zh': '仅熨烫', 'ja': 'プレスのみ'
+    },
+    'Laundry & Pressing': {
+      'ar': 'غسيل وكي', 'es': 'Lavandería y Planchado', 'fr': 'Blanchisserie et Repassage', 'de': 'Wäsche & Bügeln',
+      'ru': 'Стирка и глажка', 'zh': '洗衣与熨烫', 'ja': '洗濯＆プレス'
+    },
+    'Impeccable Care for Your Wardrobe': {
+      'ar': 'عناية فائقة بملابسك', 'es': 'Cuidado impecable para su guardarropa', 'fr': 'Un soin impeccable pour votre garde-robe', 'de': 'Tadellose Pflege für Ihre Garderobe',
+      'ru': 'Безупречный уход за вашим гардеробом', 'zh': '为您的衣物提供无可挑剔的呵护', 'ja': 'ワードローブを完璧にお手入れ'
+    },
+    'Leave your laundry to us and step out in style.': {
+      'ar': 'اترك غسيل ملابسك لنا وتألق بأناقة.', 'es': 'Deje su ropa con nosotros y luzca con estilo.', 'fr': 'Confiez-nous votre linge et sortez avec style.', 'de': 'Überlassen Sie uns Ihre Wäsche und treten Sie stilvoll auf.',
+      'ru': 'Доверьте нам свою одежду и выглядите безупречно.', 'zh': '将衣物交给我们，自信展现魅力。', 'ja': 'お洗濯は私共にお任せいただき、スマートにお出かけください。'
+    },
+    'My Laundry Orders': {
+      'ar': 'طلبات الغسيل الخاصة بي', 'es': 'Mis Pedidos de Lavandería', 'fr': 'Mes Commandes de Blanchisserie', 'de': 'Meine Wäschebestellungen',
+      'ru': 'Мои заказы на прачечную', 'zh': '我的洗衣订单', 'ja': 'ランドリーの注文履歴'
+    },
+    'Your Laundry Bag': {
+      'ar': 'حقيبة الغسيل الخاصة بك', 'es': 'Su Bolsa de Lavandería', 'fr': 'Votre Sac de Blanchisserie', 'de': 'Ihre Wäschetasche',
+      'ru': 'Ваша сумка для стирки', 'zh': '您的洗衣袋', 'ja': 'ランドリーバッグ'
+    },
+    'No services in this category.': {
+      'ar': 'لا توجد خدمات في هذه الفئة.', 'es': 'No hay servicios en esta categoría.', 'fr': 'Aucun service dans cette catégorie.', 'de': 'Keine Dienstleistungen in dieser Kategorie.',
+      'ru': 'В этой категории нет услуг.', 'zh': '此类别中暂无服务。', 'ja': 'このカテゴリにはサービスがありません。'
+    },
+    'No laundry services available.': {
+      'ar': 'لا تتوفر خدمات غسيل حالياً.', 'es': 'No hay servicios de lavandería disponibles.', 'fr': 'Aucun service de blanchisserie disponible.', 'de': 'Keine Wäscheservices verfügbar.',
+      'ru': 'Услуги прачечной недоступны.', 'zh': '暂无可用洗衣服务。', 'ja': '現在ランドリーサービスはご利用いただけません。'
+    },
+    'View Bag': {
+      'ar': 'عرض الحقيبة', 'es': 'Ver Bolsa', 'fr': 'Voir le Sac', 'de': 'Tasche Anzeigen',
+      'ru': 'Посмотреть сумку', 'zh': '查看袋子', 'ja': 'バッグを見る'
+    },
+
     'Explore Our Culinary Venues': {
       'ar': 'استكشف مطاعمنا', 'es': 'Explore Nuestros Locales Culinarios', 'fr': 'Découvrez nos Lieux Culinaires', 'de': 'Entdecken Sie unsere kulinarischen Orte',
       'ru': 'Откройте для себя наши кулинарные заведения', 'zh': '探索我们的美食场所', 'ja': '私たちの料理の場を探索する'
@@ -666,6 +728,22 @@ class AppTranslations {
       'ar': 'لم يتم العثور على أماكن', 'es': 'No se encontraron lugares', 'fr': 'Aucun lieu trouvé', 'de': 'Keine Orte gefunden',
       'ru': 'Места не найдены', 'zh': '没有找到地点', 'ja': '場所が見つかりません'
     },
+    'Map': {
+      'ar': 'الخريطة', 'es': 'Mapa', 'fr': 'Carte', 'de': 'Karte',
+      'ru': 'Карта', 'zh': '地图', 'ja': '地図'
+    },
+    'Reserve': {
+      'ar': 'حجز', 'es': 'Reservar', 'fr': 'Réserver', 'de': 'Reservieren',
+      'ru': 'Забронировать', 'zh': '预订', 'ja': '予約'
+    },
+    'Ride': {
+      'ar': 'توصيلة', 'es': 'Viaje', 'fr': 'Course', 'de': 'Fahrt',
+      'ru': 'Поездка', 'zh': '乘车', 'ja': '乗車'
+    },
+    'Could not open map link': {
+      'ar': 'تعذر فتح رابط الخريطة', 'es': 'No se pudo abrir el enlace del mapa', 'fr': "Impossible d'ouvrir le lien de la carte", 'de': 'Kartenlink konnte nicht geöffnet werden',
+      'ru': 'Не удалось открыть ссылку на карту', 'zh': '无法打开地图链接', 'ja': 'マップのリンクを開けませんでした'
+    },
 
     'View Cart': {
       'ar': 'عرض السلة', 'es': 'Ver carrito', 'fr': 'Voir le panier', 'de': 'Warenkorb ansehen',
@@ -706,6 +784,212 @@ class AppTranslations {
     'Wake-up Call': {
       'ar': 'مكالمة إيقاظ', 'es': 'Llamada de Despertador', 'fr': 'Réveil', 'de': 'Weckruf',
       'ru': 'Будильник', 'zh': '叫醒服务', 'ja': 'モーニングコール'
+    },
+
+    // ── Transportation options popup & detail screen ──
+    'Available Transports': {
+      'ar': 'وسائل النقل المتاحة', 'es': 'Transportes Disponibles', 'fr': 'Transports Disponibles', 'de': 'Verfügbare Transportmittel',
+      'ru': 'Доступный транспорт', 'zh': '可用交通工具', 'ja': '利用可能な交通手段'
+    },
+    'To': {
+      'ar': 'إلى', 'es': 'A', 'fr': 'Vers', 'de': 'Nach',
+      'ru': 'В', 'zh': '前往', 'ja': '行き先'
+    },
+    'Custom Destination': {
+      'ar': 'وجهة مخصصة', 'es': 'Destino Personalizado', 'fr': 'Destination Personnalisée', 'de': 'Individuelles Ziel',
+      'ru': 'Свой пункт назначения', 'zh': '自定义目的地', 'ja': 'カスタム目的地'
+    },
+    'No transportation options available at the moment.': {
+      'ar': 'لا تتوفر خيارات نقل حاليًا.', 'es': 'No hay opciones de transporte disponibles en este momento.', 'fr': 'Aucune option de transport disponible pour le moment.', 'de': 'Derzeit sind keine Transportoptionen verfügbar.',
+      'ru': 'В данный момент нет доступных вариантов транспорта.', 'zh': '目前没有可用的交通选项。', 'ja': '現在ご利用可能な交通手段はありません。'
+    },
+    'Hotel Car': {
+      'ar': 'سيارة الفندق', 'es': 'Coche del Hotel', 'fr': "Voiture de l'Hôtel", 'de': 'Hotelwagen',
+      'ru': 'Автомобиль отеля', 'zh': '酒店用车', 'ja': 'ホテルの車'
+    },
+    'Premium car, up to {n} pax': {
+      'ar': 'سيارة فاخرة، حتى {n} ركاب', 'es': 'Coche premium, hasta {n} pasajeros', 'fr': "Voiture premium, jusqu'à {n} passagers", 'de': 'Premium-Auto, bis zu {n} Personen',
+      'ru': 'Автомобиль премиум-класса, до {n} пассажиров', 'zh': '高级轿车，最多 {n} 人', 'ja': 'プレミアムカー、最大{n}名'
+    },
+    'Spacious vehicle, up to {n} pax': {
+      'ar': 'مركبة واسعة، حتى {n} ركاب', 'es': 'Vehículo espacioso, hasta {n} pasajeros', 'fr': "Véhicule spacieux, jusqu'à {n} passagers", 'de': 'Geräumiges Fahrzeug, bis zu {n} Personen',
+      'ru': 'Просторный автомобиль, до {n} пассажиров', 'zh': '宽敞车辆，最多 {n} 人', 'ja': '広々とした車両、最大{n}名'
+    },
+    'up to {n} pax': {
+      'ar': 'حتى {n} ركاب', 'es': 'hasta {n} pasajeros', 'fr': "jusqu'à {n} passagers", 'de': 'bis zu {n} Personen',
+      'ru': 'до {n} пассажиров', 'zh': '最多 {n} 人', 'ja': '最大{n}名'
+    },
+    'Recommended': {
+      'ar': 'موصى به', 'es': 'Recomendado', 'fr': 'Recommandé', 'de': 'Empfohlen',
+      'ru': 'Рекомендуем', 'zh': '推荐', 'ja': 'おすすめ'
+    },
+    'Description': {
+      'ar': 'الوصف', 'es': 'Descripción', 'fr': 'Description', 'de': 'Beschreibung',
+      'ru': 'Описание', 'zh': '描述', 'ja': '説明'
+    },
+    'Destination': {
+      'ar': 'الوجهة', 'es': 'Destino', 'fr': 'Destination', 'de': 'Ziel',
+      'ru': 'Пункт назначения', 'zh': '目的地', 'ja': '目的地'
+    },
+    'Enter your destination': {
+      'ar': 'أدخل وجهتك', 'es': 'Ingrese su destino', 'fr': 'Entrez votre destination', 'de': 'Geben Sie Ihr Ziel ein',
+      'ru': 'Введите пункт назначения', 'zh': '输入您的目的地', 'ja': '目的地を入力してください'
+    },
+    'Fixed rate transfer': {
+      'ar': 'توصيل بسعر ثابت', 'es': 'Traslado de tarifa fija', 'fr': 'Transfert à tarif fixe', 'de': 'Transfer zum Festpreis',
+      'ru': 'Трансфер по фиксированной цене', 'zh': '固定费率接送', 'ja': '固定料金送迎'
+    },
+    'Passengers': {
+      'ar': 'الركاب', 'es': 'Pasajeros', 'fr': 'Passagers', 'de': 'Passagiere',
+      'ru': 'Пассажиры', 'zh': '乘客', 'ja': '乗客'
+    },
+    'Number of passengers': {
+      'ar': 'عدد الركاب', 'es': 'Número de pasajeros', 'fr': 'Nombre de passagers', 'de': 'Anzahl der Passagiere',
+      'ru': 'Количество пассажиров', 'zh': '乘客人数', 'ja': '乗客数'
+    },
+    'Max capacity: {n} passengers': {
+      'ar': 'السعة القصوى: {n} ركاب', 'es': 'Capacidad máxima: {n} pasajeros', 'fr': 'Capacité maximale : {n} passagers', 'de': 'Maximale Kapazität: {n} Passagiere',
+      'ru': 'Максимальная вместимость: {n} пассажиров', 'zh': '最大容量：{n} 名乘客', 'ja': '最大定員：{n}名'
+    },
+    'Pickup Time': {
+      'ar': 'وقت الاستلام', 'es': 'Hora de Recogida', 'fr': 'Heure de Prise en Charge', 'de': 'Abholzeit',
+      'ru': 'Время подачи', 'zh': '接送时间', 'ja': '送迎時間'
+    },
+    'Now': {
+      'ar': 'الآن', 'es': 'Ahora', 'fr': 'Maintenant', 'de': 'Jetzt',
+      'ru': 'Сейчас', 'zh': '现在', 'ja': '今すぐ'
+    },
+    'In 15 min': {
+      'ar': 'خلال 15 دقيقة', 'es': 'En 15 min', 'fr': 'Dans 15 min', 'de': 'In 15 Min.',
+      'ru': 'Через 15 мин', 'zh': '15 分钟后', 'ja': '15分後'
+    },
+    'In 30 min': {
+      'ar': 'خلال 30 دقيقة', 'es': 'En 30 min', 'fr': 'Dans 30 min', 'de': 'In 30 Min.',
+      'ru': 'Через 30 мин', 'zh': '30 分钟后', 'ja': '30分後'
+    },
+    'In 1 hour': {
+      'ar': 'خلال ساعة', 'es': 'En 1 hora', 'fr': 'Dans 1 heure', 'de': 'In 1 Stunde',
+      'ru': 'Через 1 час', 'zh': '1 小时后', 'ja': '1時間後'
+    },
+    'Schedule': {
+      'ar': 'جدولة', 'es': 'Programar', 'fr': 'Planifier', 'de': 'Planen',
+      'ru': 'Запланировать', 'zh': '预约', 'ja': '予約'
+    },
+    'Scheduled': {
+      'ar': 'مجدول', 'es': 'Programado', 'fr': 'Planifié', 'de': 'Geplant',
+      'ru': 'Запланировано', 'zh': '已预约', 'ja': '予約済み'
+    },
+    'Included': {
+      'ar': 'ما يشمله', 'es': 'Incluido', 'fr': 'Inclus', 'de': 'Inbegriffen',
+      'ru': 'Включено', 'zh': '包含', 'ja': '含まれるもの'
+    },
+    'Please enter a destination.': {
+      'ar': 'يرجى إدخال الوجهة.', 'es': 'Por favor, ingrese un destino.', 'fr': 'Veuillez saisir une destination.', 'de': 'Bitte geben Sie ein Ziel ein.',
+      'ru': 'Пожалуйста, введите пункт назначения.', 'zh': '请输入目的地。', 'ja': '目的地を入力してください。'
+    },
+    'Chauffeur Requested!': {
+      'ar': 'تم طلب السائق!', 'es': '¡Chofer Solicitado!', 'fr': 'Chauffeur Demandé !', 'de': 'Chauffeur angefordert!',
+      'ru': 'Водитель вызван!', 'zh': '已请求司机！', 'ja': '運転手をリクエストしました！'
+    },
+    'Your {name} is on the way. Please wait at the hotel lobby.': {
+      'ar': '{name} الخاصة بك في الطريق. يرجى الانتظار في ردهة الفندق.', 'es': 'Su {name} está en camino. Por favor, espere en el vestíbulo del hotel.', 'fr': "Votre {name} est en route. Veuillez patienter dans le hall de l'hôtel.", 'de': 'Ihr {name} ist unterwegs. Bitte warten Sie in der Hotellobby.',
+      'ru': 'Ваш {name} уже в пути. Пожалуйста, подождите в лобби отеля.', 'zh': '您的 {name} 正在途中。请在酒店大堂等候。', 'ja': 'お客様の{name}が向かっています。ホテルのロビーでお待ちください。'
+    },
+    'Request Sent ✓': {
+      'ar': 'تم إرسال الطلب ✓', 'es': 'Solicitud Enviada ✓', 'fr': 'Demande Envoyée ✓', 'de': 'Anfrage gesendet ✓',
+      'ru': 'Запрос отправлен ✓', 'zh': '请求已发送 ✓', 'ja': 'リクエスト送信済み ✓'
+    },
+    'Confirm & Request Chauffeur': {
+      'ar': 'تأكيد وطلب سائق', 'es': 'Confirmar y Solicitar Chofer', 'fr': 'Confirmer et Demander un Chauffeur', 'de': 'Bestätigen & Chauffeur anfordern',
+      'ru': 'Подтвердить и вызвать водителя', 'zh': '确认并请求司机', 'ja': '確認して運転手をリクエスト'
+    },
+    'Done': {
+      'ar': 'تم', 'es': 'Hecho', 'fr': 'Terminé', 'de': 'Fertig',
+      'ru': 'Готово', 'zh': '完成', 'ja': '完了'
+    },
+    'Error': {
+      'ar': 'خطأ', 'es': 'Error', 'fr': 'Erreur', 'de': 'Fehler',
+      'ru': 'Ошибка', 'zh': '错误', 'ja': 'エラー'
+    },
+    'Professional hotel driver': {
+      'ar': 'سائق فندق محترف', 'es': 'Conductor profesional del hotel', 'fr': "Chauffeur professionnel de l'hôtel", 'de': 'Professioneller Hotelfahrer',
+      'ru': 'Профессиональный водитель отеля', 'zh': '专业酒店司机', 'ja': 'プロのホテルドライバー'
+    },
+    'Professional hotel chauffeur': {
+      'ar': 'سائق فندق خاص محترف', 'es': 'Chofer profesional del hotel', 'fr': "Chauffeur professionnel de l'hôtel", 'de': 'Professioneller Hotel-Chauffeur',
+      'ru': 'Профессиональный шофёр отеля', 'zh': '专业酒店司机', 'ja': 'プロのホテル専属運転手'
+    },
+    'Spacious air-conditioned Toyota bus': {
+      'ar': 'حافلة تويوتا واسعة ومكيفة', 'es': 'Autobús Toyota espacioso con aire acondicionado', 'fr': 'Bus Toyota spacieux et climatisé', 'de': 'Geräumiger klimatisierter Toyota-Bus',
+      'ru': 'Просторный автобус Toyota с кондиционером', 'zh': '宽敞的带空调丰田巴士', 'ja': '広々としたエアコン付きトヨタバス'
+    },
+    'Spacious air-conditioned van': {
+      'ar': 'فان واسع ومكيف', 'es': 'Furgoneta espaciosa con aire acondicionado', 'fr': 'Fourgonnette spacieuse et climatisée', 'de': 'Geräumiger klimatisierter Van',
+      'ru': 'Просторный микроавтобус с кондиционером', 'zh': '宽敞的带空调厢式车', 'ja': '広々としたエアコン付きバン'
+    },
+    'Air-conditioned Toyota Corolla': {
+      'ar': 'تويوتا كورولا مكيفة', 'es': 'Toyota Corolla con aire acondicionado', 'fr': 'Toyota Corolla climatisée', 'de': 'Klimatisierter Toyota Corolla',
+      'ru': 'Toyota Corolla с кондиционером', 'zh': '带空调的丰田卡罗拉', 'ja': 'エアコン付きトヨタ カローラ'
+    },
+    'Air-conditioned luxury sedan': {
+      'ar': 'سيارة سيدان فاخرة مكيفة', 'es': 'Sedán de lujo con aire acondicionado', 'fr': 'Berline de luxe climatisée', 'de': 'Klimatisierte Luxuslimousine',
+      'ru': 'Седан класса люкс с кондиционером', 'zh': '带空调的豪华轿车', 'ja': 'エアコン付き高級セダン'
+    },
+    'Air-conditioned vehicle': {
+      'ar': 'مركبة مكيفة', 'es': 'Vehículo con aire acondicionado', 'fr': 'Véhicule climatisé', 'de': 'Klimatisiertes Fahrzeug',
+      'ru': 'Автомобиль с кондиционером', 'zh': '带空调车辆', 'ja': 'エアコン付き車両'
+    },
+    'Luggage storage available': {
+      'ar': 'مساحة لتخزين الأمتعة متوفرة', 'es': 'Almacenamiento de equipaje disponible', 'fr': 'Espace bagages disponible', 'de': 'Gepäckaufbewahrung verfügbar',
+      'ru': 'Есть место для багажа', 'zh': '提供行李存放空间', 'ja': '荷物スペースあり'
+    },
+    'Up to 14 passengers capacity': {
+      'ar': 'سعة تصل إلى 14 راكبًا', 'es': 'Capacidad de hasta 14 pasajeros', 'fr': "Capacité jusqu'à 14 passagers", 'de': 'Platz für bis zu 14 Passagiere',
+      'ru': 'Вместимость до 14 пассажиров', 'zh': '最多可容纳 14 名乘客', 'ja': '最大14名まで乗車可能'
+    },
+    'Ideal for large groups & families': {
+      'ar': 'مثالي للمجموعات الكبيرة والعائلات', 'es': 'Ideal para grupos grandes y familias', 'fr': 'Idéal pour les grands groupes et les familles', 'de': 'Ideal für große Gruppen & Familien',
+      'ru': 'Идеально для больших групп и семей', 'zh': '非常适合大型团体和家庭', 'ja': '大人数のグループやご家族に最適'
+    },
+    'Ideal for groups & families': {
+      'ar': 'مثالي للمجموعات والعائلات', 'es': 'Ideal para grupos y familias', 'fr': 'Idéal pour les groupes et les familles', 'de': 'Ideal für Gruppen & Familien',
+      'ru': 'Идеально для групп и семей', 'zh': '非常适合团体和家庭', 'ja': 'グループやご家族に最適'
+    },
+    'Real-time GPS tracking': {
+      'ar': 'تتبع GPS في الوقت الفعلي', 'es': 'Seguimiento GPS en tiempo real', 'fr': 'Suivi GPS en temps réel', 'de': 'GPS-Echtzeitverfolgung',
+      'ru': 'GPS-отслеживание в реальном времени', 'zh': '实时 GPS 追踪', 'ja': 'リアルタイムGPS追跡'
+    },
+    'Complimentary water bottles': {
+      'ar': 'زجاجات مياه مجانية', 'es': 'Botellas de agua de cortesía', 'fr': "Bouteilles d'eau offertes", 'de': 'Kostenlose Wasserflaschen',
+      'ru': 'Бесплатная вода в бутылках', 'zh': '免费瓶装水', 'ja': '無料のミネラルウォーター'
+    },
+    'Meet & greet at hotel lobby': {
+      'ar': 'استقبال في ردهة الفندق', 'es': 'Recibimiento en el vestíbulo del hotel', 'fr': "Accueil dans le hall de l'hôtel", 'de': 'Empfang in der Hotellobby',
+      'ru': 'Встреча в лобби отеля', 'zh': '酒店大堂迎接', 'ja': 'ホテルロビーでのお出迎え'
+    },
+    'Licensed local driver': {
+      'ar': 'سائق محلي مرخص', 'es': 'Conductor local con licencia', 'fr': 'Chauffeur local agréé', 'de': 'Lizenzierter lokaler Fahrer',
+      'ru': 'Лицензированный местный водитель', 'zh': '持证本地司机', 'ja': '認可を受けた地元ドライバー'
+    },
+    'Metered fare': {
+      'ar': 'أجرة بالعداد', 'es': 'Tarifa por taxímetro', 'fr': 'Tarif au compteur', 'de': 'Taxameter-Tarif',
+      'ru': 'Оплата по счётчику', 'zh': '按表计费', 'ja': 'メーター制運賃'
+    },
+    'Direct hotel booking': {
+      'ar': 'حجز مباشر من الفندق', 'es': 'Reserva directa con el hotel', 'fr': "Réservation directe par l'hôtel", 'de': 'Direkte Hotelbuchung',
+      'ru': 'Прямое бронирование через отель', 'zh': '酒店直接预订', 'ja': 'ホテル直接予約'
+    },
+    'Shared shuttle service': {
+      'ar': 'خدمة نقل مشتركة', 'es': 'Servicio de lanzadera compartido', 'fr': 'Service de navette partagé', 'de': 'Gemeinsamer Shuttle-Service',
+      'ru': 'Общий трансфер', 'zh': '共享接驳服务', 'ja': '乗り合いシャトルサービス'
+    },
+    'Budget-friendly option': {
+      'ar': 'خيار اقتصادي', 'es': 'Opción económica', 'fr': 'Option économique', 'de': 'Preisgünstige Option',
+      'ru': 'Бюджетный вариант', 'zh': '经济实惠之选', 'ja': 'お手頃な選択肢'
+    },
+    'Pickup from hotel entrance': {
+      'ar': 'الاستلام من مدخل الفندق', 'es': 'Recogida en la entrada del hotel', 'fr': "Prise en charge à l'entrée de l'hôtel", 'de': 'Abholung am Hoteleingang',
+      'ru': 'Посадка у входа в отель', 'zh': '酒店入口接客', 'ja': 'ホテルの入口でお迎え'
     }
 
   };
@@ -715,11 +999,11 @@ class AppTranslations {
       final provider = Provider.of<GuestPortalProvider>(context, listen: listen);
       final lang = provider.currentLanguage;
       if (lang == 'en') return text;
-      
+
       if (_dict.containsKey(text) && _dict[text]!.containsKey(lang)) {
         return _dict[text]![lang]!;
       }
-      
+
       // Case-insensitive fallback
       final lowerText = text.toLowerCase().trim();
       for (final key in _dict.keys) {
@@ -740,5 +1024,12 @@ class AppTranslations {
 extension StringTranslation on String {
   String tr(BuildContext context, {bool listen = true}) {
     return AppTranslations.tr(context, this, listen: listen);
+  }
+
+  /// Translates and substitutes `{placeholders}`, e.g. 'up to {n} pax'.trWith(context, {'n': '4'})
+  String trWith(BuildContext context, Map<String, Object> params) {
+    var result = AppTranslations.tr(context, this);
+    params.forEach((k, v) => result = result.replaceAll('{$k}', v.toString()));
+    return result;
   }
 }

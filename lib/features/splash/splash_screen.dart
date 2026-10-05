@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:triumph_hotels/core/constants/app_images.dart';
+import 'package:triumph_hotels/core/utils/video_cache_manager.dart';
+import 'package:triumph_hotels/core/utils/splash_config.dart';
 import 'package:triumph_hotels/features/intro/intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -59,6 +61,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Pre-fetch splash config from API while the splash logo video plays.
+    SplashConfig.fetch().then((config) {
+      if (config == null || !config.isActive || !config.hasVideo || config.videoUrl == null || config.videoUrl!.isEmpty) {
+        return;
+      }
+      final videoUrl = config.videoUrl!;
+      VideoCacheManager.isCacheValid(videoUrl, config.version).then((valid) {
+        if (!valid) {
+          VideoCacheManager.cacheVideoInBackground(videoUrl, version: config.version);
+        }
+      });
+    });
+
     _controller = VideoPlayerController.asset(AppImages.splashVideo);
     _controller.addListener(_onControllerUpdate);
 

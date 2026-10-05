@@ -573,7 +573,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               _buildBottomNavItem(
                 icon: Icons.explore_outlined,
-                label: 'Experience',
+                label: localizations.experience,
                 isSelected: false,
                 onTap: () {
                   final guestProvider = context.read<GuestPortalProvider>();

@@ -4,13 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:triumph_hotels/core/constants/app_colors.dart';
 import 'package:triumph_hotels/core/providers/guest_portal_provider.dart';
 import 'package:triumph_hotels/features/guest_portal/guest_portal_transport_detail_screen.dart';
+import 'package:triumph_hotels/core/utils/app_translations.dart';
 
 class TransportOptionsBottomSheet {
   static void show(BuildContext context, ThemeData theme, {Map<String, dynamic>? place}) {
     // If no place is provided, we use an empty title so the next screen knows to ask for it.
     final safePlace = place ?? {'title': '', 'distance': '0.0'};
     final displayTitle = safePlace['title']?.toString().isNotEmpty == true ? safePlace['title'].toString() : (safePlace['name']?.toString() ?? '');
-    final toText = displayTitle.isEmpty ? 'Custom Destination' : displayTitle.replaceAll('\n', ' ');
+    final toText = displayTitle.isEmpty ? 'Custom Destination'.tr(context, listen: false) : displayTitle.replaceAll('\n', ' ');
 
     showModalBottomSheet(
       context: context,
@@ -52,7 +53,7 @@ class TransportOptionsBottomSheet {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Available Transports',
+                    'Available Transports'.tr(context),
                     style: GoogleFonts.roboto(
                       color: theme.textTheme.bodyLarge?.color,
                       fontSize: 20,
@@ -60,7 +61,7 @@ class TransportOptionsBottomSheet {
                     ),
                   ),
                   Text(
-                    'To: $toText',
+                    '${'To'.tr(context)}: $toText',
                     style: GoogleFonts.roboto(
                       color: theme.textTheme.bodyMedium?.color?.withOpacity(0.6),
                       fontSize: 13,
@@ -74,7 +75,7 @@ class TransportOptionsBottomSheet {
                       child: Padding(
                         padding: const EdgeInsets.all(32),
                         child: Text(
-                          'No transportation options available at the moment.',
+                          'No transportation options available at the moment.'.tr(context),
                           style: GoogleFonts.roboto(color: theme.textTheme.bodyMedium?.color),
                         ),
                       ),
@@ -98,7 +99,7 @@ class TransportOptionsBottomSheet {
     Map<String, dynamic> place, {
     int index = 0,
   }) {
-    final name = transport['name']?.toString() ?? 'Hotel Car';
+    final name = transport['name']?.toString() ?? 'Hotel Car'.tr(context);
     final nameLower = name.toLowerCase();
 
     // Max passengers:
@@ -120,8 +121,10 @@ class TransportOptionsBottomSheet {
     
     final desc = transport['description']?.toString();
     final rawDescription = (desc != null && desc.isNotEmpty)
-        ? desc.replaceAll(RegExp(r'up to \d+\s*(pax|passengers)', caseSensitive: false), 'up to $capacity pax')
-        : (isVan ? 'Spacious vehicle, up to $capacity pax' : 'Premium car, up to $capacity pax');
+        ? desc.replaceAll(RegExp(r'up to \d+\s*(pax|passengers)', caseSensitive: false), 'up to {n} pax'.trWith(context, {'n': capacity}))
+        : (isVan
+            ? 'Spacious vehicle, up to {n} pax'.trWith(context, {'n': capacity})
+            : 'Premium car, up to {n} pax'.trWith(context, {'n': capacity}));
 
     return InkWell(
       onTap: () {
@@ -201,7 +204,7 @@ class TransportOptionsBottomSheet {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            'Recommended',
+                            'Recommended'.tr(context),
                             style: GoogleFonts.roboto(
                               color: Colors.white,
                               fontSize: 10,

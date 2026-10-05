@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:triumph_hotels/core/constants/app_colors.dart';
 import 'package:triumph_hotels/core/providers/global_notification_provider.dart';
+import 'package:triumph_hotels/core/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
@@ -27,8 +28,9 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
     final Uri url = Uri.parse(urlString);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       if (mounted) {
+        final localizations = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not open link')),
+          SnackBar(content: Text(localizations.couldNotLaunchUrl)),
         );
       }
     }
@@ -36,11 +38,13 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          'Notifications', 
+          localizations.notifications, 
           style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -59,12 +63,12 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Failed to load notifications', style: TextStyle(color: Colors.red)),
+                  Text(localizations.failedToLoadNotifications, style: TextStyle(color: Colors.red)),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => provider.fetchNotifications(),
                     style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
-                    child: Text('Retry', style: TextStyle(color: Colors.white)),
+                    child: Text(localizations.retry, style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),
@@ -78,7 +82,7 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
                 children: [
                   Icon(Icons.notifications_off_outlined, size: 64, color: Colors.grey),
                   SizedBox(height: 16),
-                  Text('No new offers or updates yet.', style: TextStyle(color: Colors.grey, fontSize: 16)),
+                  Text(localizations.noNewOffersOrUpdates, style: TextStyle(color: Colors.grey, fontSize: 16)),
                 ],
               ),
             );
@@ -136,7 +140,7 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                  'View Details',
+                                  localizations.viewDetails,
                                   style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
                                 ),
                                 Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.primary),

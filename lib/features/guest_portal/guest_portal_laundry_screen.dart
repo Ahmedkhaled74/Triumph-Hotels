@@ -133,7 +133,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Your Laundry Bag',
+                    'Your Laundry Bag'.tr(context),
                     style: GoogleFonts.roboto(
                       color: AppColors.primary,
                       fontSize: 22,
@@ -310,7 +310,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
         if (isLoading && resolvedCategories.isEmpty && services.isEmpty) {
           bodyContent = const Center(child: CircularProgressIndicator());
         } else if (resolvedCategories.isEmpty && services.isEmpty) {
-          bodyContent = const Center(child: Text('No laundry services available.'));
+          bodyContent = Center(child: Text('No laundry services available.'.tr(context)));
         } else {
           // If no categories but services exist, show all services in a single list.
           if (resolvedCategories.isEmpty) {
@@ -344,9 +344,10 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                   unselectedLabelStyle: GoogleFonts.roboto(fontWeight: FontWeight.w500, fontSize: 14),
                   tabs: resolvedCategories.map((cat) {
                     final name = cat['name']?.toString() ?? 'Unknown';
+                    final cleaned = name.replaceAll('_', ' ').trim();
                     // Capitalize the tab label
-                    final label = name.isNotEmpty ? name[0].toUpperCase() + name.substring(1) : name;
-                    return Tab(text: label);
+                    final label = cleaned.isNotEmpty ? cleaned[0].toUpperCase() + cleaned.substring(1) : cleaned;
+                    return Tab(text: label.tr(context));
                   }).toList(),
                 ),
                 const SizedBox(height: 16),
@@ -360,7 +361,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                       ).toList();
 
                       if (filteredServices.isEmpty) {
-                        return const Center(child: Text('No services in this category.'));
+                        return Center(child: Text('No services in this category.'.tr(context)));
                       }
 
                       return isSmallScreen
@@ -400,7 +401,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                     onPressed: () => Navigator.pop(context),
                   ),
                   title: Text(
-                    'Laundry & Pressing',
+                    'Laundry & Pressing'.tr(context),
                     style: GoogleFonts.roboto(
                       color: AppColors.primary,
                       fontSize: 20,
@@ -430,7 +431,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                   backgroundColor: AppColors.primary,
                   icon: const Icon(Icons.shopping_bag, color: Colors.white),
                   label: Text(
-                    'View Bag (${_cartItems.length})',
+                    '${'View Bag'.tr(context)} (${_cartItems.length})',
                     style: GoogleFonts.roboto(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -471,7 +472,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Impeccable Care for Your Wardrobe',
+                                    'Impeccable Care for Your Wardrobe'.tr(context),
                                     style: GoogleFonts.roboto(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -481,7 +482,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    'Leave your laundry to us and step out in style.',
+                                    'Leave your laundry to us and step out in style.'.tr(context),
                                     style: GoogleFonts.roboto(
                                       color: Colors.white.withOpacity(0.9),
                                       fontSize: 14,
@@ -509,7 +510,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Available Services',
+                            'Available Services'.tr(context),
                             style: GoogleFonts.roboto(
                               color: theme.textTheme.bodyLarge?.color,
                               fontSize: 18,
@@ -631,7 +632,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Add to Bag',
+                          'Add to Bag'.tr(context),
                           style: GoogleFonts.roboto(
                             color: Colors.white,
                             fontSize: 12,
@@ -804,7 +805,7 @@ class _GuestPortalLaundryScreenState extends State<GuestPortalLaundryScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                'My Laundry Orders',
+                'My Laundry Orders'.tr(context),
                 style: GoogleFonts.roboto(
                   color: AppColors.primary,
                   fontSize: 22,
