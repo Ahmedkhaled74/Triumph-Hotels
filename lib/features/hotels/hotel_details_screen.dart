@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:triumph_hotels/core/constants/app_colors.dart';
 import 'package:triumph_hotels/core/localization/app_localizations.dart';
 import 'package:triumph_hotels/core/utils/responsive_utils.dart';
@@ -187,11 +188,11 @@ class _HotelDetailsScreenState extends State<HotelDetailsScreen> {
   IconData _getPlatformIcon(String platform) {
     final p = platform.toLowerCase();
     if (p.contains('facebook') || p.contains('fb')) return Icons.facebook;
-    if (p.contains('instagram') || p.contains('insta')) return Icons.camera_alt;
+    if (p.contains('instagram') || p.contains('insta')) return FontAwesomeIcons.instagram;
     if (p.contains('twitter') || p.contains('x')) return Icons.alternate_email;
-    if (p.contains('linkedin')) return Icons.business;
+    if (p.contains('linkedin')) return FontAwesomeIcons.linkedinIn;
     if (p.contains('youtube')) return Icons.play_circle_fill;
-    if (p.contains('tiktok')) return Icons.music_note;
+    if (p.contains('tiktok')) return FontAwesomeIcons.tiktok;
     if (p.contains('snapchat')) return Icons.camera;
     if (p.contains('whatsapp') || p.contains('whats')) return Icons.chat;
     if (p.contains('tripadvisor')) return Icons.rate_review;

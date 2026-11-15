@@ -5,12 +5,19 @@ class GlobalNotification {
   final String? url;
   final DateTime createdAt;
 
+  final String? type;
+  final int? offerId;
+  final String? hotelSlug;
+
   GlobalNotification({
     required this.id,
     required this.title,
     required this.message,
     this.url,
     required this.createdAt,
+    this.type,
+    this.offerId,
+    this.hotelSlug,
   });
 
   factory GlobalNotification.fromJson(Map<String, dynamic> json) {
@@ -22,6 +29,9 @@ class GlobalNotification {
       createdAt: json['created_at'] != null 
           ? DateTime.parse(json['created_at']) 
           : DateTime.now(),
+      type: json['type'],
+      offerId: json['offer_id'] is int ? json['offer_id'] : int.tryParse(json['offer_id']?.toString() ?? ''),
+      hotelSlug: json['hotel_slug'],
     );
   }
 }

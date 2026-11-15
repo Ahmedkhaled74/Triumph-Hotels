@@ -5,6 +5,10 @@ import 'package:triumph_hotels/core/providers/global_notification_provider.dart'
 import 'package:triumph_hotels/core/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:triumph_hotels/core/providers/hotel_provider.dart';
+import 'package:triumph_hotels/models/hotel_model.dart';
+import 'package:triumph_hotels/features/hotels/hotel_details_screen.dart';
+import 'package:triumph_hotels/models/global_notification.dart';
 
 class GlobalNotificationsScreen extends StatefulWidget {
   const GlobalNotificationsScreen({super.key});
@@ -33,6 +37,53 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
           SnackBar(content: Text(localizations.couldNotLaunchUrl)),
         );
       }
+    }
+  }
+
+  Future<void> _handleNotificationClick(GlobalNotification notification) async {
+    if (notification.type == 'offer' && notification.hotelSlug != null) {
+      final hotelProvider = Provider.of<HotelProvider>(context, listen: false);
+      
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator(color: AppColors.primary)),
+      );
+      
+      try {
+        HotelModel? targetHotel;
+        try {
+          targetHotel = hotelProvider.hotels.firstWhere((h) => h.slug == notification.hotelSlug);
+        } catch (_) {}
+        
+        if (targetHotel == null) {
+          await hotelProvider.fetchHotelDetail(notification.hotelSlug!);
+          targetHotel = hotelProvider.getDetailedHotel(notification.hotelSlug!);
+        }
+        
+        if (mounted) Navigator.pop(context); // Close loading dialog
+        
+        if (targetHotel != null && mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HotelDetailsScreen(hotel: targetHotel!),
+            ),
+          );
+          return;
+        }
+      } catch (e) {
+        if (mounted) Navigator.pop(context); // Close loading dialog
+      }
+    }
+    
+    // Fallback to URL navigation
+    if (notification.url != null && notification.url!.isNotEmpty) {
+      String urlStr = notification.url!;
+      if (!urlStr.startsWith('http')) {
+        urlStr = 'https://triumphhotel.com${urlStr.startsWith('/') ? '' : '/'}$urlStr';
+      }
+      _launchUrl(urlStr);
     }
   }
 
@@ -102,9 +153,7 @@ class _GlobalNotificationsScreenState extends State<GlobalNotificationsScreen> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: notification.url != null && notification.url!.isNotEmpty 
-                        ? () => _launchUrl(notification.url!) 
-                        : null,
+                    onTap: () => _handleNotificationClick(notification),
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: Column(

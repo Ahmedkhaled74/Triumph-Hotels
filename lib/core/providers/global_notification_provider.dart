@@ -3,6 +3,7 @@ import 'package:triumph_hotels/models/global_notification.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class GlobalNotificationProvider extends ChangeNotifier {
   
@@ -23,6 +24,11 @@ class GlobalNotificationProvider extends ChangeNotifier {
   GlobalNotificationProvider() {
     _loadLastSeenTime().then((_) {
       fetchNotifications();
+    });
+
+    // Listen to real-time incoming push notifications and update the badge/list automatically
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      fetchNotifications(silent: true);
     });
   }
 

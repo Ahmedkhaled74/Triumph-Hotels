@@ -311,7 +311,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
                     crossAxisCount: ResponsiveUtils.getResponsiveColumns(context),
                     crossAxisSpacing: ResponsiveUtils.getResponsivePadding(context, smallPadding: 16, mediumPadding: 24),
                     mainAxisSpacing: ResponsiveUtils.getResponsivePadding(context, smallPadding: 16, mediumPadding: 24),
-                    mainAxisExtent: ResponsiveUtils.getResponsiveHeight(context, isSmallScreen ? 0.65 : 0.55),
+                    mainAxisExtent: ResponsiveUtils.getResponsiveHeight(context, isSmallScreen ? 0.53 : 0.45),
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => _buildRoomCard(_rooms[index]),

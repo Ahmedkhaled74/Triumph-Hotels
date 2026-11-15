@@ -6,6 +6,7 @@ import 'package:triumph_hotels/core/providers/language_provider.dart';
 import 'package:triumph_hotels/core/providers/theme_provider.dart';
 import 'package:triumph_hotels/core/providers/auth_provider.dart';
 import 'package:triumph_hotels/features/settings/language_screen.dart';
+import 'package:triumph_hotels/features/home/home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -58,89 +59,99 @@ class CustomDrawer extends StatelessWidget {
                 const SizedBox(height: 24),
                 
                 // User Profile Section
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.cardColor,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppColors.primary.withOpacity(0.1),
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 2),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      (route) => false,
+                    );
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.primary.withOpacity(0.1),
+                        width: 1,
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppColors.primary,
-                              AppColors.primary.withOpacity(0.8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.primary,
+                                AppColors.primary.withOpacity(0.8),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
                             ],
                           ),
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withOpacity(0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
+                          child: user?.avatar != null
+                              ? ClipOval(child: Image.network(user!.avatar!, fit: BoxFit.cover))
+                              : const Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
                         ),
-                        child: user?.avatar != null
-                            ? ClipOval(child: Image.network(user!.avatar!, fit: BoxFit.cover))
-                            : const Icon(
-                                Icons.person,
-                                color: Colors.white,
-                                size: 24,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                authProvider.isAuthenticated
+                                    ? '${user?.firstName ?? ''} ${user?.lastName ?? ''}'.trim().isNotEmpty
+                                        ? '${user?.firstName ?? ''} ${user?.lastName ?? ''}'.trim()
+                                        : 'Triumph Member'
+                                    : localizations.continueAsGuest,
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              authProvider.isAuthenticated
-                                  ? '${user?.firstName ?? ''} ${user?.lastName ?? ''}'.trim().isNotEmpty
-                                      ? '${user?.firstName ?? ''} ${user?.lastName ?? ''}'.trim()
-                                      : 'Triumph Member'
-                                  : localizations.continueAsGuest,
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              authProvider.isAuthenticated
-                                  ? (user?.email ?? 'Member')
-                                  : localizations.memberSince,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
-                              ),
-                            ),
-                          ],
+                              if (authProvider.isAuthenticated)
+                                Text(
+                                  user?.email ?? 'Member',
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Icon(
-                        Icons.chevron_right,
-                        color: AppColors.primary,
-                        size: 20,
-                      ),
-                    ],
+                        Icon(
+                          Icons.chevron_right,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
